@@ -40,10 +40,10 @@ export default function InstagramLookbook({ settings, onExplore }) {
               <span>Instagram Lookbook</span>
             </div>
             <h2 className="font-serif text-2xl sm:text-3xl font-bold text-brand-dark">
-              Styled by You, Shared with Love
+              Fashion Lookbook
             </h2>
             <p className="text-xs text-brand-muted mt-1">
-              Tag <span className="font-semibold text-brand-deep">{handle}</span> to get featured on our gallery!
+              Curated everyday styles and outfit inspiration.
             </p>
           </div>
 

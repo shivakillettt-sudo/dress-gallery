@@ -280,7 +280,7 @@ export default function ProductDetailModal({
                   className="w-full bg-[#25D366] hover:bg-[#20ba59] text-white font-semibold text-sm py-3.5 px-4 rounded-2xl shadow-md shadow-emerald-500/20 transition flex items-center justify-center gap-2 active:scale-95"
                 >
                   <MessageCircle className="w-4 h-4 fill-white" />
-                  <span>Order Now (WhatsApp)</span>
+                  <span>Order Now</span>
                 </button>
               </div>
 

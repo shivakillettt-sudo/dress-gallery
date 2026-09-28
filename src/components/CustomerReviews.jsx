@@ -37,27 +37,17 @@ export default function CustomerReviews() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto mb-10">
-          <div className="inline-flex items-center gap-1.5 bg-brand-soft/80 text-brand-deep px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-2">
-            <Heart className="w-3.5 h-3.5 fill-current" />
-            <span>Loved by 5,000+ Women</span>
-          </div>
+        <div className="text-center max-w-xl mx-auto mb-10">
           <h2 className="font-serif text-3xl sm:text-4xl font-bold text-brand-dark">
-            What Our Customers Say
+            Customer Reviews
           </h2>
-          <p className="text-xs sm:text-sm text-brand-muted mt-2">
-            Real feedback from fashion lovers who enjoy our quality fabrics and budget-friendly styles.
-          </p>
-
-          {/* Overall Rating Pill */}
-          <div className="flex items-center justify-center gap-2 mt-4">
+          <div className="flex items-center justify-center gap-2 mt-3">
             <div className="flex text-amber-400">
               {[...Array(5)].map((_, i) => (
                 <Star key={i} className="w-4 h-4 fill-amber-400" />
               ))}
             </div>
             <span className="text-xs font-bold text-brand-dark">4.9 / 5.0</span>
-            <span className="text-xs text-brand-muted">• 1,200+ Verified Reviews</span>
           </div>
         </div>
 

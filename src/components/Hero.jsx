@@ -60,21 +60,19 @@ export default function Hero({ settings, onExplore, onSelectCategory, activeCate
             {/* Pill Tag */}
             <div className="inline-flex items-center gap-2 bg-white/80 border border-brand-pink/40 shadow-xs px-3.5 py-1.5 rounded-full text-xs font-semibold text-brand-deep">
               <Sparkles className="w-3.5 h-3.5 text-brand-gold" />
-              <span>New Season 2026 Collection</span>
-              <span className="w-1.5 h-1.5 rounded-full bg-brand-deep" />
-              <span className="text-brand-dark/70 font-normal">Meesho Finds & Designer Outfits</span>
+              <span>Shiva Fashion Collection</span>
             </div>
 
             {/* Main Headline */}
             <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-brand-dark leading-[1.15]">
               Trendy Fashion, <br />
               <span className="italic font-normal text-brand-deep">Exceptional Comfort</span>, <br />
-              Pocket-Friendly Prices.
+              Affordable Prices.
             </h1>
 
             {/* Subtitle / Brand Statement */}
             <p className="text-base sm:text-lg text-brand-muted max-w-xl mx-auto lg:mx-0 leading-relaxed font-normal">
-              Discover curated women’s dresses, floral maxis, breathable cotton nighties, and daily wear kurtis. High-quality fashion crafted for every special occasion and everyday lounging.
+              Curated women’s dresses and everyday outfits, crafted for comfort, style, and quality.
             </p>
 
             {/* Action Buttons */}
@@ -88,11 +86,11 @@ export default function Hero({ settings, onExplore, onSelectCategory, activeCate
               </button>
             </div>
 
-            {/* Key Trust Highlights */}
+            {/* Key Highlights */}
             <div className="grid grid-cols-3 gap-2 pt-4 border-t border-brand-pink/20 max-w-lg mx-auto lg:mx-0">
               <div className="flex flex-col items-center lg:items-start text-center lg:text-left">
                 <span className="font-serif font-bold text-lg sm:text-xl text-brand-dark">₹399+</span>
-                <span className="text-[11px] text-brand-muted font-medium">Affordable Starts</span>
+                <span className="text-[11px] text-brand-muted font-medium">Budget Friendly</span>
               </div>
               <div className="flex flex-col items-center lg:items-start text-center lg:text-left">
                 <span className="font-serif font-bold text-lg sm:text-xl text-brand-dark">100%</span>
@@ -100,13 +98,13 @@ export default function Hero({ settings, onExplore, onSelectCategory, activeCate
               </div>
               <div className="flex flex-col items-center lg:items-start text-center lg:text-left">
                 <span className="font-serif font-bold text-lg sm:text-xl text-brand-dark">Direct</span>
-                <span className="text-[11px] text-brand-muted font-medium">WhatsApp Assistance</span>
+                <span className="text-[11px] text-brand-muted font-medium">Easy Ordering</span>
               </div>
             </div>
 
           </div>
 
-          {/* Right Column: Visual Collage with Floating Badges */}
+          {/* Right Column: Clean Editorial Visual */}
           <div className="lg:col-span-5 relative">
             <div className="relative mx-auto max-w-sm sm:max-w-md">
               
@@ -123,33 +121,11 @@ export default function Hero({ settings, onExplore, onSelectCategory, activeCate
                   {/* Bottom overlay text */}
                   <div className="absolute bottom-4 left-4 right-4 text-white">
                     <span className="inline-block bg-brand-gold text-brand-dark font-extrabold text-[10px] uppercase tracking-wider px-2.5 py-0.5 rounded-full mb-1">
-                      Featured Today
+                      Featured
                     </span>
-                    <h3 className="font-serif text-xl font-bold">The Blossom Tiered Edit</h3>
-                    <p className="text-xs text-white/80">Breathable silhouettes for timeless elegance</p>
+                    <h3 className="font-serif text-xl font-bold">The Blossom Edit</h3>
+                    <p className="text-xs text-white/80">Breathable silhouettes for everyday comfort</p>
                   </div>
-                </div>
-              </div>
-
-              {/* Floating Badge 1: Discount */}
-              <div className="absolute -top-4 -left-4 sm:-left-6 bg-white/95 backdrop-blur-md rounded-2xl p-3 shadow-lg border border-brand-pink/30 flex items-center gap-3 animate-bounce">
-                <div className="w-10 h-10 rounded-xl bg-brand-soft flex items-center justify-center text-brand-deep">
-                  <Percent className="w-5 h-5" />
-                </div>
-                <div>
-                  <p className="text-xs font-bold text-brand-dark">Flat 10% OFF</p>
-                  <p className="text-[10px] text-brand-muted">Use code: <span className="text-brand-deep font-semibold">WELCOME100</span></p>
-                </div>
-              </div>
-
-              {/* Floating Badge 2: Free Shipping */}
-              <div className="absolute -bottom-4 -right-4 sm:-right-6 bg-white/95 backdrop-blur-md rounded-2xl p-3 shadow-lg border border-brand-pink/30 flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600">
-                  <Truck className="w-5 h-5" />
-                </div>
-                <div>
-                  <p className="text-xs font-bold text-brand-dark">Free Delivery</p>
-                  <p className="text-[10px] text-brand-muted">On all orders over ₹799</p>
                 </div>
               </div>
 

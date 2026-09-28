@@ -298,7 +298,7 @@ export default function ASLogo({ size = 'md', showText = true, variant = 'defaul
           <span className={`uppercase tracking-[0.25em] font-semibold mt-1 ${
             isLight ? 'text-brand-pink/90' : 'text-brand-muted'
           } ${textSizes[size]?.sub || 'text-[10px]'}`}>
-            AS Monogram Fashion
+            Shiva Fashion
           </span>
         </div>
       )}

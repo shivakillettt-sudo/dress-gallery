@@ -36,12 +36,12 @@ export default function Footer({
             </div>
 
             <p className="text-xs text-white/70 leading-relaxed max-w-sm">
-              Dress Gallery offers trendy, stylish, comfortable, and affordable dresses for everyday wear and special occasions. Handpicked quality outfits designed for women across India.
+              Dress Gallery offers stylish, comfortable, and affordable dresses for everyday wear and special occasions.
             </p>
 
             <div className="pt-1">
               <p className="font-serif italic text-xs text-brand-pink">
-                “Trendy Fashion • Quality • Comfort • Affordable Prices”
+                “Trendy Fashion • Quality • Comfort”
               </p>
             </div>
 
