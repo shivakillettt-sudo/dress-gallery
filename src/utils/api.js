@@ -170,6 +170,18 @@ export const api = {
     }
   },
 
+  // Direct Product Image Upload
+  async uploadImage(file) {
+    const formData = new FormData();
+    formData.append('image', file);
+    const res = await fetch(`${API_BASE}/upload`, {
+      method: 'POST',
+      body: formData
+    });
+    if (!res.ok) throw new Error('Failed to upload image');
+    return await res.json();
+  },
+
   // Settings
   async getSettings() {
     try {
@@ -180,8 +192,9 @@ export const api = {
       return {
         storeName: "Dress Gallery",
         tagline: "Trendy Fashion • Quality • Comfort • Affordable Prices",
-        whatsappNumber: "919876543210",
-        announcement: "🌸 Welcome to Dress Gallery! Flat 10% OFF with code WELCOME100 • Free Delivery above ₹799 🌸",
+        whatsappNumber: "6369099224",
+        whatsappInternal: "919636909224",
+        announcement: "🌸 Welcome to Dress Gallery! Flat 10% OFF with code WELCOME100 • Free Delivery above ₹799 • WhatsApp: 6369099224 🌸",
         freeShippingThreshold: 799,
         standardShippingFee: 70,
         upiId: "dressgallery@okaxis",
@@ -204,20 +217,18 @@ export const api = {
     }
   },
 
-  // Admin Auth
+  // Admin Auth - Strictly Server-side
   async loginAdmin(pin) {
     try {
       const res = await fetch(`${API_BASE}/admin/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ pin })
+        body: JSON.stringify({ pin: String(pin).trim() })
       });
-      return await res.json();
+      const data = await res.json();
+      return data;
     } catch (err) {
-      if (pin === '1234') {
-        return { success: true, token: 'local-token' };
-      }
-      return { success: false, error: 'Incorrect Admin PIN. Default is 1234.' };
+      return { success: false, error: 'Could not connect to authentication server.' };
     }
   }
 };

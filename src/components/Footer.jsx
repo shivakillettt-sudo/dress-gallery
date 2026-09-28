@@ -11,6 +11,8 @@ import {
 } from 'lucide-react';
 import InstagramIcon from './InstagramIcon';
 
+import ASLogo from './ASLogo';
+
 export default function Footer({
   settings,
   onSelectCategory,
@@ -19,7 +21,8 @@ export default function Footer({
   onOpenSizeChart,
   onOpenAdmin
 }) {
-  const whatsappNumber = settings?.whatsappNumber || '919876543210';
+  const whatsappNumber = settings?.whatsappNumber || '6369099224';
+  const internalWhatsApp = settings?.whatsappInternal || '919636909224';
   const currentYear = new Date().getFullYear();
 
   return (
@@ -30,13 +33,8 @@ export default function Footer({
           
           {/* Brand Info (2 cols) */}
           <div className="lg:col-span-2 space-y-4">
-            <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-brand-pink to-brand-deep flex items-center justify-center font-serif font-bold text-lg text-white">
-                DG
-              </div>
-              <span className="font-serif text-2xl font-bold tracking-tight text-white">
-                Dress Gallery
-              </span>
+            <div className="flex items-center">
+              <ASLogo size="md" variant="light" />
             </div>
 
             <p className="text-xs text-white/70 leading-relaxed max-w-sm">
@@ -52,13 +50,13 @@ export default function Footer({
             {/* WhatsApp Contact badge */}
             <div className="pt-2">
               <a
-                href={`https://wa.me/${whatsappNumber}`}
+                href={`https://wa.me/${internalWhatsApp}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 bg-[#25D366]/20 hover:bg-[#25D366] text-white border border-[#25D366]/40 text-xs font-semibold px-4 py-2 rounded-xl transition"
               >
                 <MessageCircle className="w-4 h-4 fill-current" />
-                <span>Chat on WhatsApp: +{whatsappNumber}</span>
+                <span>Chat on WhatsApp: +91 {whatsappNumber}</span>
               </a>
             </div>
           </div>

@@ -130,7 +130,7 @@ export default function TrackOrderModal({ isOpen, onClose, initialQuery, setting
                     Please ensure the Order ID is correct or contact us on WhatsApp with your name and payment screenshot.
                   </p>
                   <a
-                    href={`https://wa.me/${settings?.whatsappNumber || '919876543210'}?text=${encodeURIComponent(`Hello, I want to check my order status for: ${query}`)}`}
+                    href={`https://wa.me/${settings?.whatsappInternal || settings?.whatsappNumber || '919636909224'}?text=${encodeURIComponent(`Hello Dress Gallery, I want to check my order status for: ${query}`)}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-700 bg-emerald-50 px-3.5 py-1.5 rounded-full border border-emerald-200 mt-2"

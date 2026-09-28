@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
+import LandingPage from './components/LandingPage';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import ProductCard from './components/ProductCard';
 import ProductDetailModal from './components/ProductDetailModal';
+import ProductOrderModal from './components/ProductOrderModal';
 import CartDrawer from './components/CartDrawer';
 import CheckoutModal from './components/CheckoutModal';
 import TrackOrderModal from './components/TrackOrderModal';
@@ -11,7 +13,6 @@ import SizeChartModal from './components/SizeChartModal';
 import CustomerReviews from './components/CustomerReviews';
 import InstagramLookbook from './components/InstagramLookbook';
 import Footer from './components/Footer';
-import FloatingWhatsApp from './components/FloatingWhatsApp';
 import AdminDashboard from './components/AdminDashboard';
 import { api } from './utils/api';
 import { 
@@ -20,11 +21,19 @@ import {
   ArrowUpDown, 
   Heart, 
   X, 
-  ShoppingBag,
-  SlidersHorizontal
+  ShoppingBag
 } from 'lucide-react';
 
 export default function App() {
+  // 1. Session-based First Opening Landing Page State (Rule 1)
+  const [hasEnteredStore, setHasEnteredStore] = useState(() => {
+    try {
+      return sessionStorage.getItem('dg_entered') === 'true';
+    } catch {
+      return false;
+    }
+  });
+
   const [products, setProducts] = useState([]);
   const [settings, setSettings] = useState({});
   const [loading, setLoading] = useState(true);
@@ -37,6 +46,10 @@ export default function App() {
 
   // Modals & Drawers
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [orderModalProduct, setOrderModalProduct] = useState(null);
+  const [orderModalSize, setOrderModalSize] = useState('');
+  const [orderModalColor, setOrderModalColor] = useState('');
+
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isWishlistModalOpen, setIsWishlistModalOpen] = useState(false);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
@@ -99,6 +112,15 @@ export default function App() {
     loadData();
   }, []);
 
+  const handleEnterStore = () => {
+    setHasEnteredStore(true);
+    try {
+      sessionStorage.setItem('dg_entered', 'true');
+    } catch (err) {
+      console.warn(err);
+    }
+  };
+
   // Cart Actions
   const handleAddToCart = (productWithSelection) => {
     setCartItems(prev => {
@@ -126,6 +148,12 @@ export default function App() {
       quantity: 1
     });
     setIsCartOpen(true);
+  };
+
+  const handleOpenOrderModalForProduct = (product, size, color) => {
+    setOrderModalProduct(product);
+    setOrderModalSize(size || product.sizes?.[0] || 'Free Size');
+    setOrderModalColor(color || product.colors?.[0] || '');
   };
 
   const handleUpdateQuantity = (id, size, newQty) => {
@@ -178,9 +206,10 @@ export default function App() {
         const q = searchQuery.toLowerCase().trim();
         const matchesTitle = p.title.toLowerCase().includes(q);
         const matchesCat = p.category.toLowerCase().includes(q);
+        const matchesSku = p.sku && p.sku.toLowerCase().includes(q);
         const matchesDesc = p.description && p.description.toLowerCase().includes(q);
         const matchesBadge = p.badge && p.badge.toLowerCase().includes(q);
-        if (!matchesTitle && !matchesCat && !matchesDesc && !matchesBadge) return false;
+        if (!matchesTitle && !matchesCat && !matchesSku && !matchesDesc && !matchesBadge) return false;
       }
 
       // Size Filter
@@ -220,8 +249,14 @@ export default function App() {
     return placed;
   };
 
+  // --- RULE 1: FIRST OPENING PAGE / LANDING PAGE ---
+  if (!hasEnteredStore) {
+    return <LandingPage onEnter={handleEnterStore} />;
+  }
+
+  // --- MAIN SHOPPING WEBSITE ---
   return (
-    <div className="min-h-screen bg-brand-cream flex flex-col selection:bg-brand-pink selection:text-brand-dark">
+    <div className="min-h-screen bg-brand-cream flex flex-col selection:bg-brand-pink selection:text-brand-dark animate-fadeIn">
       
       {/* 1. Header & Navigation */}
       <Navbar
@@ -246,7 +281,7 @@ export default function App() {
         onSearchChange={setSearchQuery}
       />
 
-      {/* 2. Hero Section */}
+      {/* 2. Hero Section (NO green WhatsApp button, as requested in Rule 3) */}
       <Hero
         settings={settings}
         onExplore={scrollToCatalog}
@@ -270,7 +305,7 @@ export default function App() {
             <h2 className="font-serif text-2xl sm:text-3xl font-bold text-brand-dark">
               {activeCategory === 'All' ? 'Complete Collection' : activeCategory}
               <span className="text-sm font-normal text-brand-muted ml-2 font-sans">
-                ({filteredProducts.length} {filteredProducts.length === 1 ? 'dress' : 'dresses'})
+                ({filteredProducts.length} {filteredProducts.length === 1 ? 'outfit' : 'outfits'})
               </span>
             </h2>
           </div>
@@ -356,7 +391,7 @@ export default function App() {
                 onToggleWishlist={handleToggleWishlist}
                 onOpenDetail={setSelectedProduct}
                 onQuickAddToCart={handleQuickAddToCart}
-                whatsappNumber={settings.whatsappNumber}
+                onOpenOrderModal={(p) => handleOpenOrderModalForProduct(p)}
               />
             ))}
           </div>
@@ -389,10 +424,19 @@ export default function App() {
         onOpenAdmin={() => setIsAdminOpen(true)}
       />
 
-      {/* 7. Floating WhatsApp Button */}
-      <FloatingWhatsApp settings={settings} />
+      {/* NO FLOATING GREEN WHATSAPP BUTTON (Removed per Rule 4) */}
 
       {/* --- ALL MODALS & DRAWERS --- */}
+
+      {/* REQUIRED: ORDER DETAILS MODAL (RULES 5, 6, 7 & 12) */}
+      <ProductOrderModal
+        product={orderModalProduct}
+        isOpen={Boolean(orderModalProduct)}
+        onClose={() => setOrderModalProduct(null)}
+        settings={settings}
+        defaultSize={orderModalSize}
+        defaultColor={orderModalColor}
+      />
 
       {/* Product Detail Modal */}
       <ProductDetailModal
@@ -404,6 +448,10 @@ export default function App() {
         onAddToCart={handleAddToCart}
         whatsappNumber={settings.whatsappNumber}
         onOpenSizeChart={() => setIsSizeChartOpen(true)}
+        onOpenOrderForm={(prod, sz, clr) => {
+          setSelectedProduct(null);
+          handleOpenOrderModalForProduct(prod, sz, clr);
+        }}
       />
 
       {/* Cart Drawer */}

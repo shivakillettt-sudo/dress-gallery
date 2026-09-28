@@ -22,7 +22,8 @@ export default function ProductDetailModal({
   onToggleWishlist,
   onAddToCart,
   whatsappNumber,
-  onOpenSizeChart
+  onOpenSizeChart,
+  onOpenOrderForm
 }) {
   if (!isOpen || !product) return null;
 
@@ -48,19 +49,10 @@ export default function ProductDetailModal({
     setTimeout(() => setAddedToast(false), 2000);
   };
 
-  const handleWhatsAppOrder = () => {
-    const phone = whatsappNumber || '919876543210';
-    const msg = `Hello Dress Gallery! 🌸 I would like to order:
-👗 *${product.title}*
-📏 *Size:* ${selectedSize}
-🎨 *Color:* ${selectedColor}
-🔢 *Quantity:* ${quantity}
-💰 *Total:* ₹${product.price * quantity}
-🏷️ *Product ID:* ${product.id}
-🖼️ *Image:* ${product.images?.[selectedImage] || product.images?.[0] || ''}
-
-Please confirm my order and let me know the payment details!`;
-    window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
+  const handleOrderNow = () => {
+    if (onOpenOrderForm) {
+      onOpenOrderForm(product, selectedSize, selectedColor, quantity);
+    }
   };
 
   return (
@@ -285,11 +277,11 @@ Please confirm my order and let me know the payment details!`;
                 </button>
 
                 <button
-                  onClick={handleWhatsAppOrder}
+                  onClick={handleOrderNow}
                   className="w-full bg-[#25D366] hover:bg-[#20ba59] text-white font-semibold text-sm py-3.5 px-4 rounded-2xl shadow-md shadow-emerald-500/20 transition flex items-center justify-center gap-2 active:scale-95"
                 >
                   <MessageCircle className="w-4 h-4 fill-white" />
-                  <span>Order on WhatsApp</span>
+                  <span>Order Now (WhatsApp)</span>
                 </button>
               </div>
 

@@ -7,23 +7,17 @@ export default function ProductCard({
   onToggleWishlist,
   onOpenDetail,
   onQuickAddToCart,
-  whatsappNumber
+  onOpenOrderModal
 }) {
   const discountPercent = product.mrp > product.price
     ? Math.round(((product.mrp - product.price) / product.mrp) * 100)
     : 0;
 
-  const handleWhatsAppOrder = (e) => {
+  const handleOrderNowClick = (e) => {
     e.stopPropagation();
-    const phone = whatsappNumber || '919876543210';
-    const msg = `Hello Dress Gallery! I would like to order this dress:
-👗 *${product.title}*
-💰 *Price:* ₹${product.price} (MRP: ₹${product.mrp})
-🏷️ *Code:* ${product.id}
-🖼️ *Image:* ${product.images?.[0] || ''}
-
-Please confirm availability and share payment options.`;
-    window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
+    if (onOpenOrderModal) {
+      onOpenOrderModal(product);
+    }
   };
 
   return (
@@ -146,12 +140,12 @@ Please confirm availability and share payment options.`;
             </button>
 
             <button
-              onClick={handleWhatsAppOrder}
-              className="bg-[#25D366]/10 hover:bg-[#25D366] text-emerald-800 hover:text-white border border-[#25D366]/30 font-semibold text-xs py-2 px-2 rounded-xl transition flex items-center justify-center gap-1"
-              title="Order on WhatsApp"
+              onClick={handleOrderNowClick}
+              className="bg-brand-deep hover:bg-brand-deep/90 text-white font-bold text-xs py-2 px-2 rounded-xl transition flex items-center justify-center gap-1 shadow-xs"
+              title="Order Now"
             >
               <MessageCircle className="w-3.5 h-3.5 fill-current" />
-              <span>WhatsApp</span>
+              <span>Order Now</span>
             </button>
           </div>
         </div>

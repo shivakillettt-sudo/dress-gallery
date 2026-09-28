@@ -1,7 +1,6 @@
 import React from 'react';
 import { 
   Sparkles, 
-  MessageCircle, 
   ShoppingBag, 
   ShieldCheck, 
   Truck, 
@@ -10,10 +9,6 @@ import {
 } from 'lucide-react';
 
 export default function Hero({ settings, onExplore, onSelectCategory, activeCategory }) {
-  const whatsappNumber = settings?.whatsappNumber || '919876543210';
-  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
-    "Hello Dress Gallery! I visited your website and would like to see the latest collection catalogue."
-  )}`;
 
   const storyCategories = [
     { 
@@ -86,21 +81,11 @@ export default function Hero({ settings, onExplore, onSelectCategory, activeCate
             <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3.5 pt-2">
               <button
                 onClick={onExplore}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 bg-brand-deep hover:bg-brand-deep/90 text-white font-semibold text-sm px-7 py-3.5 rounded-full shadow-lg shadow-brand-deep/25 hover:shadow-brand-deep/40 transition transform active:scale-95"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 bg-brand-deep hover:bg-brand-deep/90 text-white font-semibold text-sm px-8 py-3.5 rounded-full shadow-lg shadow-brand-deep/25 hover:shadow-brand-deep/40 transition transform active:scale-95"
               >
                 <ShoppingBag className="w-4 h-4" />
                 <span>Shop New Arrivals</span>
               </button>
-
-              <a
-                href={whatsappUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 bg-[#25D366] hover:bg-[#20ba59] text-white font-semibold text-sm px-6 py-3.5 rounded-full shadow-md shadow-emerald-500/20 transition transform active:scale-95"
-              >
-                <MessageCircle className="w-4 h-4 fill-white" />
-                <span>Order on WhatsApp</span>
-              </a>
             </div>
 
             {/* Key Trust Highlights */}

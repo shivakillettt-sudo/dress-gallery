@@ -65,7 +65,7 @@ export default function CartDrawer({
   };
 
   const handleWhatsAppCheckout = () => {
-    const phone = settings?.whatsappNumber || '919876543210';
+    const phone = settings?.whatsappInternal || settings?.whatsappNumber || '919636909224';
     const itemsList = cartItems.map((item, idx) => 
       `${idx + 1}. *${item.title}* | Size: ${item.selectedSize} | Qty: ${item.quantity} | ₹${item.price * item.quantity}`
     ).join('\n');

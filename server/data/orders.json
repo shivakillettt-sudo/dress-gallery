@@ -1,12 +1,43 @@
 [
   {
+    "id": "DG-1849",
+    "createdAt": "2026-09-28T13:26:29.650Z",
+    "customer": {
+      "name": "shiva",
+      "phone": "6469099224",
+      "address": "Santhome, Ward 125, Zone 9 Teynampet, Chennai, Tamil Nadu, 600004, India",
+      "city": "",
+      "pincode": ""
+    },
+    "items": [
+      {
+        "id": "dg-003",
+        "sku": "AS-103",
+        "title": "Graceful Velvet Sequin Cocktail Evening Gown",
+        "price": 1499,
+        "size": "S",
+        "color": "Wine Burgundy",
+        "quantity": 1,
+        "image": "https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&w=800&q=80"
+      }
+    ],
+    "subtotal": 1499,
+    "discount": 0,
+    "shippingFee": 0,
+    "total": 1499,
+    "paymentMethod": "WhatsApp Direct Order",
+    "paymentStatus": "Pending",
+    "orderStatus": "Confirmed",
+    "source": "Product Order Now Modal"
+  },
+  {
     "id": "DG-9884",
     "createdAt": "2026-09-28T12:34:10.755Z",
     "customer": {
       "city": "Chennai",
       "name": "Test User",
       "pincode": "600001",
-      "phone": "9876543210",
+      "phone": "9845123456",
       "address": "123 Fashion Street"
     },
     "items": [

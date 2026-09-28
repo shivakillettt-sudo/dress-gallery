@@ -2,14 +2,49 @@ const express = require('express');
 const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
+const multer = require('multer');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
 app.use(cors());
-app.use(express.json({ limit: '10mb' }));
+app.use(express.json({ limit: '20mb' }));
 
 const DATA_DIR = path.join(__dirname, 'data');
+const UPLOADS_DIR = path.join(__dirname, 'uploads');
+
+if (!fs.existsSync(UPLOADS_DIR)) {
+  fs.mkdirSync(UPLOADS_DIR, { recursive: true });
+}
+
+// Configure multer for direct image upload from computer
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, UPLOADS_DIR);
+  },
+  filename: function (req, file, cb) {
+    const ext = path.extname(file.originalname).toLowerCase() || '.jpg';
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, 'dress-' + uniqueSuffix + ext);
+  }
+});
+const upload = multer({ 
+  storage: storage, 
+  limits: { fileSize: 15 * 1024 * 1024 } // 15MB limit
+});
+
+// Serve uploaded images statically
+app.use('/uploads', express.static(UPLOADS_DIR));
+
+// Direct Image Upload Endpoint
+app.post('/api/upload', upload.single('image'), (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ error: 'No image file uploaded' });
+  }
+  const imageUrl = `/uploads/${req.file.filename}`;
+  res.json({ success: true, url: imageUrl, filename: req.file.filename });
+});
 
 // Helper to read JSON
 function readData(fileName, defaultVal = []) {
@@ -53,6 +88,7 @@ app.get('/api/products', (req, res) => {
     products = products.filter(p => 
       p.title.toLowerCase().includes(q) || 
       p.category.toLowerCase().includes(q) || 
+      (p.sku && p.sku.toLowerCase().includes(q)) ||
       (p.description && p.description.toLowerCase().includes(q)) ||
       (p.badge && p.badge.toLowerCase().includes(q))
     );
@@ -85,8 +121,12 @@ app.get('/api/products/:id', (req, res) => {
 
 app.post('/api/products', (req, res) => {
   const products = readData('products.json', []);
+  const rawId = `dg-${Date.now().toString().slice(-5)}`;
+  const sku = req.body.sku || `AS-${Math.floor(1000 + Math.random() * 9000)}`;
+
   const newProduct = {
-    id: `dg-${Date.now().toString().slice(-5)}`,
+    id: rawId,
+    sku: sku,
     title: req.body.title || 'Untitled Dress',
     category: req.body.category || 'Casual & Everyday',
     price: Number(req.body.price) || 499,
@@ -96,7 +136,8 @@ app.post('/api/products', (req, res) => {
     inStock: req.body.inStock !== false,
     stockCount: Number(req.body.stockCount) || 10,
     featured: Boolean(req.body.featured),
-    badge: req.body.badge || '',
+    newArrival: req.body.newArrival !== undefined ? Boolean(req.body.newArrival) : true,
+    badge: req.body.badge || (req.body.newArrival ? 'New Arrival' : ''),
     fabric: req.body.fabric || 'Premium Fabric',
     description: req.body.description || '',
     images: Array.isArray(req.body.images) && req.body.images.length 
@@ -116,7 +157,14 @@ app.put('/api/products/:id', (req, res) => {
   const index = products.findIndex(p => p.id === req.params.id);
   if (index === -1) return res.status(404).json({ error: 'Product not found' });
 
-  products[index] = { ...products[index], ...req.body, id: req.params.id };
+  products[index] = { 
+    ...products[index], 
+    ...req.body, 
+    id: req.params.id,
+    price: req.body.price !== undefined ? Number(req.body.price) : products[index].price,
+    mrp: req.body.mrp !== undefined ? Number(req.body.mrp) : products[index].mrp,
+    stockCount: req.body.stockCount !== undefined ? Number(req.body.stockCount) : products[index].stockCount
+  };
   writeData('products.json', products);
   res.json(products[index]);
 });
@@ -158,7 +206,7 @@ app.get('/api/orders', (req, res) => {
 app.post('/api/orders', (req, res) => {
   const orders = readData('orders.json', []);
   const newOrder = {
-    id: `DG-${Math.floor(1000 + Math.random() * 9000)}`,
+    id: `AS-${Math.floor(1000 + Math.random() * 9000)}`,
     createdAt: new Date().toISOString(),
     customer: req.body.customer || {},
     items: req.body.items || [],
@@ -169,7 +217,9 @@ app.post('/api/orders', (req, res) => {
     paymentMethod: req.body.paymentMethod || 'Cash on Delivery',
     paymentStatus: req.body.paymentStatus || 'Pending',
     orderStatus: 'Confirmed',
-    source: req.body.source || 'Website Checkout'
+    source: req.body.source || 'Product Order Form',
+    location: req.body.location || null,
+    notes: req.body.notes || ''
   };
 
   orders.unshift(newOrder);
@@ -245,29 +295,44 @@ app.put('/api/inquiries/:id/status', (req, res) => {
 // --- SETTINGS API ---
 app.get('/api/settings', (req, res) => {
   const settings = readData('settings.json', {});
-  // Don't expose adminPin in public response
-  const { adminPin, ...safeSettings } = settings;
+  // Never expose admin password hash or secrets to public response
+  const { adminPin, adminPinHash, ...safeSettings } = settings;
   res.json(safeSettings);
 });
 
 app.put('/api/settings', (req, res) => {
   const current = readData('settings.json', {});
-  const updated = { ...current, ...req.body };
+  const { newAdminPin, adminPin, adminPinHash, ...updates } = req.body;
+
+  if (newAdminPin && String(newAdminPin).trim().length >= 4) {
+    updates.adminPinHash = crypto.createHash('sha256').update(String(newAdminPin).trim()).digest('hex');
+  }
+
+  const updated = { ...current, ...updates };
   writeData('settings.json', updated);
-  const { adminPin, ...safeSettings } = updated;
+  const { adminPin: p, adminPinHash: h, ...safeSettings } = updated;
   res.json(safeSettings);
 });
 
-// --- ADMIN AUTH ---
+// --- ADMIN AUTH (SECURE SERVER-SIDE HASH VERIFICATION) ---
+// Secure default hash for 112233:
+const DEFAULT_PIN_HASH = 'e0bc60c82713f64ef8a57c0c40d02ce24fd0141d5cc3086259c19b1e62a62bea';
+
 app.post('/api/admin/login', (req, res) => {
   const { pin } = req.body;
-  const settings = readData('settings.json', { adminPin: '1234' });
-  const validPin = settings.adminPin || '1234';
+  if (!pin) {
+    return res.status(400).json({ success: false, error: 'Please enter your Admin PIN' });
+  }
 
-  if (pin === validPin) {
-    res.json({ success: true, token: 'dg-admin-session-active' });
+  const settings = readData('settings.json', {});
+  const expectedHash = settings.adminPinHash || DEFAULT_PIN_HASH;
+  const inputHash = crypto.createHash('sha256').update(String(pin).trim()).digest('hex');
+
+  if (inputHash === expectedHash) {
+    const token = 'dg-adm-' + crypto.randomBytes(16).toString('hex');
+    res.json({ success: true, token });
   } else {
-    res.status(401).json({ success: false, error: 'Incorrect Admin PIN. Default is 1234.' });
+    res.status(401).json({ success: false, error: 'Incorrect Admin PIN. Please try again.' });
   }
 });
 
@@ -276,7 +341,7 @@ const distPath = path.join(__dirname, '..', 'dist');
 if (fs.existsSync(distPath)) {
   app.use(express.static(distPath));
   app.use((req, res, next) => {
-    if (req.path.startsWith('/api')) return next();
+    if (req.path.startsWith('/api') || req.path.startsWith('/uploads')) return next();
     res.sendFile(path.join(distPath, 'index.html'));
   });
 }

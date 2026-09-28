@@ -12,6 +12,7 @@ import {
   Tag,
   ArrowRight
 } from 'lucide-react';
+import ASLogo from './ASLogo';
 
 export default function Navbar({
   settings,
@@ -69,19 +70,8 @@ export default function Navbar({
           </div>
 
           {/* Logo & Brand */}
-          <div className="flex items-center gap-3 cursor-pointer" onClick={() => onSelectCategory('All')}>
-            <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-brand-pink to-brand-deep flex items-center justify-center text-white shadow-md shadow-brand-pink/40 ring-2 ring-brand-soft">
-              <span className="font-serif font-bold text-xl italic">DG</span>
-            </div>
-            <div className="flex flex-col">
-              <span className="font-serif text-2xl font-bold tracking-tight text-brand-dark flex items-center gap-1.5">
-                Dress Gallery
-                <span className="inline-block w-2 h-2 rounded-full bg-brand-deep"></span>
-              </span>
-              <span className="text-[10px] uppercase tracking-widest text-brand-muted font-medium hidden sm:inline">
-                Trendy • Quality • Comfort
-              </span>
-            </div>
+          <div className="flex items-center cursor-pointer group" onClick={() => onSelectCategory('All')}>
+            <ASLogo size="md" />
           </div>
 
           {/* Search Bar (Desktop) */}
@@ -239,11 +229,8 @@ export default function Navbar({
           <div className="relative w-4/5 max-w-xs bg-brand-cream h-full shadow-2xl p-6 flex flex-col justify-between overflow-y-auto z-10">
             <div>
               <div className="flex items-center justify-between pb-4 border-b border-brand-pink/20">
-                <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-full bg-brand-deep text-white flex items-center justify-center font-serif font-bold text-sm">
-                    DG
-                  </div>
-                  <span className="font-serif font-bold text-lg text-brand-dark">Dress Gallery</span>
+                <div className="flex items-center">
+                  <ASLogo size="sm" />
                 </div>
                 <button 
                   onClick={() => setMobileMenuOpen(false)}

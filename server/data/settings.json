@@ -1,12 +1,13 @@
 {
   "storeName": "Dress Gallery",
   "tagline": "Trendy Fashion • Quality • Comfort • Affordable Prices",
-  "whatsappNumber": "919876543210",
-  "announcement": "🌸 Welcome to Dress Gallery! Flat 10% OFF with code WELCOME100 • Free Delivery above ₹799 • Direct WhatsApp Orders Available 🌸",
+  "whatsappNumber": "6369099224",
+  "whatsappInternal": "919636909224",
+  "announcement": "🌸 Welcome to Dress Gallery! Flat 10% OFF with code WELCOME100 • Free Delivery above ₹799 • Direct WhatsApp Orders: 6369099224 🌸",
   "freeShippingThreshold": 799,
   "standardShippingFee": 70,
   "upiId": "dressgallery@okaxis",
-  "adminPin": "1234",
+  "adminPinHash": "e0bc60c82713f64ef8a57c0c40d02ce24fd0141d5cc3086259c19b1e62a62bea",
   "supportEmail": "contact@dressgallery.in",
   "instagramHandle": "@dressgallery_fashion",
   "address": "Dress Gallery Boutique, Fashion Street, Sector 12"
