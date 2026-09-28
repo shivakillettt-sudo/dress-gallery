@@ -4,6 +4,7 @@
   "description": "Dress Gallery Online Fashion Shopping Website & Admin Dashboard",
   "main": "server/index.js",
   "scripts": {
+    "start": "node server/index.js",
     "dev": "concurrently -k -p \"[{name}]\" -n \"API,WEB\" -c \"magenta,cyan\" \"node server/index.js\" \"vite --host\"",
     "server": "node server/index.js",
     "client": "vite",
