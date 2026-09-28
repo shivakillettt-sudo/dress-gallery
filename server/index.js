@@ -346,6 +346,10 @@ if (fs.existsSync(distPath)) {
   });
 }
 
-app.listen(PORT, () => {
-  console.log(`Dress Gallery Backend Server running on port ${PORT}`);
-});
+if (require.main === module || !process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`Dress Gallery Backend Server running on port ${PORT}`);
+  });
+}
+
+module.exports = app;
