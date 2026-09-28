@@ -43,7 +43,7 @@ app.post('/api/upload', upload.single('image'), (req, res) => {
     return res.status(400).json({ error: 'No image file uploaded' });
   }
   const imageUrl = `/uploads/${req.file.filename}`;
-  res.json({ success: true, url: imageUrl, filename: req.file.filename });
+  res.json({ success: true, url: imageUrl, imageUrl: imageUrl, filename: req.file.filename });
 });
 
 // Helper to read JSON

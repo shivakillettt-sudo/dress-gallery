@@ -110,6 +110,22 @@ export default function App() {
 
   useEffect(() => {
     loadData();
+
+    // Direct URL support for Admin Login (e.g. /#admin, ?admin=true, or /admin)
+    const checkAdminRoute = () => {
+      if (
+        window.location.hash === '#admin' || 
+        window.location.search.includes('admin') || 
+        window.location.pathname.endsWith('/admin')
+      ) {
+        setHasEnteredStore(true);
+        setIsAdminOpen(true);
+      }
+    };
+
+    checkAdminRoute();
+    window.addEventListener('hashchange', checkAdminRoute);
+    return () => window.removeEventListener('hashchange', checkAdminRoute);
   }, []);
 
   const handleEnterStore = () => {

@@ -1,5 +1,65 @@
 [
   {
+    "id": "AS-3562",
+    "createdAt": "2026-09-28T14:11:40.179Z",
+    "customer": {
+      "name": "Deployment Tester",
+      "phone": "6369099224",
+      "address": "MG Road, Bengaluru, Karnataka 560001"
+    },
+    "items": [
+      {
+        "id": "dg-99692",
+        "sku": "AS-TEST-DEPLOY",
+        "title": "Deploy Test Silk Dress (Updated)",
+        "price": 1199,
+        "quantity": 1,
+        "size": "M",
+        "color": "Rose Gold"
+      }
+    ],
+    "subtotal": 1199,
+    "discount": 0,
+    "shippingFee": 0,
+    "total": 1199,
+    "paymentMethod": "WhatsApp Direct Order",
+    "paymentStatus": "Pending",
+    "orderStatus": "Confirmed",
+    "source": "Product Order Modal Verification",
+    "location": "12.9716, 77.5946",
+    "notes": ""
+  },
+  {
+    "id": "AS-7328",
+    "createdAt": "2026-09-28T14:10:16.962Z",
+    "customer": {
+      "name": "Deployment Tester",
+      "phone": "6369099224",
+      "address": "MG Road, Bengaluru, Karnataka 560001"
+    },
+    "items": [
+      {
+        "id": "dg-16483",
+        "sku": "AS-TEST-DEPLOY",
+        "title": "Deploy Test Silk Dress (Updated)",
+        "price": 1199,
+        "quantity": 1,
+        "size": "M",
+        "color": "Rose Gold"
+      }
+    ],
+    "subtotal": 1199,
+    "discount": 0,
+    "shippingFee": 0,
+    "total": 1199,
+    "paymentMethod": "WhatsApp Direct Order",
+    "paymentStatus": "Pending",
+    "orderStatus": "Confirmed",
+    "source": "Product Order Modal Verification",
+    "location": "12.9716, 77.5946",
+    "notes": ""
+  },
+  {
     "id": "DG-1849",
     "createdAt": "2026-09-28T13:26:29.650Z",
     "customer": {

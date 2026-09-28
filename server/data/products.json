@@ -6,8 +6,16 @@
     "category": "Trendy & Designer",
     "price": 899,
     "mrp": 1799,
-    "sizes": ["S", "M", "L", "XL"],
-    "colors": ["Blush Pink", "Cream White"],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "colors": [
+      "Blush Pink",
+      "Cream White"
+    ],
     "inStock": true,
     "stockCount": 18,
     "featured": true,
@@ -29,8 +37,16 @@
     "category": "Casual & Everyday",
     "price": 549,
     "mrp": 1099,
-    "sizes": ["M", "L", "XL", "XXL"],
-    "colors": ["Dusty Peach", "Sage Green"],
+    "sizes": [
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "colors": [
+      "Dusty Peach",
+      "Sage Green"
+    ],
     "inStock": true,
     "stockCount": 24,
     "featured": true,
@@ -52,8 +68,15 @@
     "category": "Trendy & Designer",
     "price": 1499,
     "mrp": 2999,
-    "sizes": ["S", "M", "L"],
-    "colors": ["Wine Burgundy", "Emerald Green"],
+    "sizes": [
+      "S",
+      "M",
+      "L"
+    ],
+    "colors": [
+      "Wine Burgundy",
+      "Emerald Green"
+    ],
     "inStock": true,
     "stockCount": 8,
     "featured": true,
@@ -65,7 +88,7 @@
       "https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&w=800&q=80",
       "https://images.unsplash.com/photo-1518895949257-7621c3c786d7?auto=format&fit=crop&w=800&q=80"
     ],
-    "rating": 5.0,
+    "rating": 5,
     "reviewsCount": 29
   },
   {
@@ -75,8 +98,17 @@
     "category": "Nighties & Lounge",
     "price": 399,
     "mrp": 799,
-    "sizes": ["Free Size", "L", "XL", "XXL"],
-    "colors": ["Baby Pink", "Sky Blue", "Lavender"],
+    "sizes": [
+      "Free Size",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "colors": [
+      "Baby Pink",
+      "Sky Blue",
+      "Lavender"
+    ],
     "inStock": true,
     "stockCount": 35,
     "featured": false,
@@ -98,8 +130,16 @@
     "category": "Trendy & Designer",
     "price": 999,
     "mrp": 1999,
-    "sizes": ["S", "M", "L", "XL"],
-    "colors": ["Champagne Gold", "Blush Rose"],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "colors": [
+      "Champagne Gold",
+      "Blush Rose"
+    ],
     "inStock": true,
     "stockCount": 12,
     "featured": true,
@@ -121,8 +161,16 @@
     "category": "Casual & Everyday",
     "price": 649,
     "mrp": 1299,
-    "sizes": ["S", "M", "L", "XL"],
-    "colors": ["Coral Pink", "Mustard Yellow"],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "colors": [
+      "Coral Pink",
+      "Mustard Yellow"
+    ],
     "inStock": true,
     "stockCount": 20,
     "featured": false,
@@ -144,8 +192,16 @@
     "category": "Trendy & Designer",
     "price": 1299,
     "mrp": 2599,
-    "sizes": ["M", "L", "XL", "XXL"],
-    "colors": ["Rani Pink", "Navy Blue"],
+    "sizes": [
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "colors": [
+      "Rani Pink",
+      "Navy Blue"
+    ],
     "inStock": true,
     "stockCount": 15,
     "featured": true,
@@ -167,8 +223,15 @@
     "category": "Casual & Everyday",
     "price": 799,
     "mrp": 1499,
-    "sizes": ["S", "M", "L"],
-    "colors": ["Mocha Beige", "Classic Black"],
+    "sizes": [
+      "S",
+      "M",
+      "L"
+    ],
+    "colors": [
+      "Mocha Beige",
+      "Classic Black"
+    ],
     "inStock": true,
     "stockCount": 10,
     "featured": false,
@@ -190,8 +253,16 @@
     "category": "Nighties & Lounge",
     "price": 699,
     "mrp": 1399,
-    "sizes": ["Free Size", "M", "L", "XL"],
-    "colors": ["Powder Pink", "Ice Lavender"],
+    "sizes": [
+      "Free Size",
+      "M",
+      "L",
+      "XL"
+    ],
+    "colors": [
+      "Powder Pink",
+      "Ice Lavender"
+    ],
     "inStock": true,
     "stockCount": 22,
     "featured": true,
@@ -213,8 +284,17 @@
     "category": "Casual & Everyday",
     "price": 449,
     "mrp": 899,
-    "sizes": ["S", "M", "L", "XL", "XXL"],
-    "colors": ["Pastel Green", "Blush Peach"],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "colors": [
+      "Pastel Green",
+      "Blush Peach"
+    ],
     "inStock": true,
     "stockCount": 30,
     "featured": false,
@@ -236,8 +316,15 @@
     "category": "Trendy & Designer",
     "price": 1199,
     "mrp": 2399,
-    "sizes": ["S", "M", "L"],
-    "colors": ["Pastel Lilac", "Pearl Cream"],
+    "sizes": [
+      "S",
+      "M",
+      "L"
+    ],
+    "colors": [
+      "Pastel Lilac",
+      "Pearl Cream"
+    ],
     "inStock": true,
     "stockCount": 9,
     "featured": true,
@@ -259,8 +346,15 @@
     "category": "Nighties & Lounge",
     "price": 499,
     "mrp": 999,
-    "sizes": ["Free Size", "XL", "XXL"],
-    "colors": ["Warm Beige", "Soft Teal"],
+    "sizes": [
+      "Free Size",
+      "XL",
+      "XXL"
+    ],
+    "colors": [
+      "Warm Beige",
+      "Soft Teal"
+    ],
     "inStock": true,
     "stockCount": 16,
     "featured": false,
