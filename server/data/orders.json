@@ -1,0 +1,102 @@
+[
+  {
+    "id": "DG-9884",
+    "createdAt": "2026-09-28T12:34:10.755Z",
+    "customer": {
+      "city": "Chennai",
+      "name": "Test User",
+      "pincode": "600001",
+      "phone": "9876543210",
+      "address": "123 Fashion Street"
+    },
+    "items": [
+      {
+        "id": "dg-001",
+        "quantity": 1,
+        "color": "Blush Pink",
+        "price": 899,
+        "title": "Rose Bloom Tiered Floral Maxi Dress",
+        "size": "M"
+      }
+    ],
+    "subtotal": 899,
+    "discount": 100,
+    "shippingFee": 0,
+    "total": 799,
+    "paymentMethod": "Cash on Delivery",
+    "paymentStatus": "Pending",
+    "orderStatus": "Confirmed",
+    "source": "Website Checkout"
+  },
+  {
+    "id": "DG-9041",
+    "createdAt": "2026-09-28T10:15:00.000Z",
+    "customer": {
+      "name": "Pooja Sharma",
+      "phone": "+91 98234 56789",
+      "email": "pooja.s@gmail.com",
+      "address": "Flat 402, Green Valley Apts, Kothrud",
+      "city": "Pune",
+      "pincode": "411038"
+    },
+    "items": [
+      {
+        "id": "dg-001",
+        "title": "Rose Bloom Tiered Floral Maxi Dress",
+        "price": 899,
+        "size": "M",
+        "color": "Blush Pink",
+        "quantity": 1,
+        "image": "https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?auto=format&fit=crop&w=800&q=80"
+      }
+    ],
+    "subtotal": 899,
+    "discount": 100,
+    "shippingFee": 0,
+    "total": 799,
+    "paymentMethod": "UPI / Online",
+    "paymentStatus": "Paid",
+    "orderStatus": "Confirmed",
+    "source": "WhatsApp Direct"
+  },
+  {
+    "id": "DG-9038",
+    "createdAt": "2026-09-27T16:40:00.000Z",
+    "customer": {
+      "name": "Ananya Mukherjee",
+      "phone": "+91 98451 23412",
+      "email": "ananya.m@outlook.com",
+      "address": "B-12, Palm Meadows, Whitefield",
+      "city": "Bengaluru",
+      "pincode": "560066"
+    },
+    "items": [
+      {
+        "id": "dg-004",
+        "title": "Featherlight Cotton Floral Daily Nighty",
+        "price": 399,
+        "size": "Free Size",
+        "color": "Baby Pink",
+        "quantity": 2,
+        "image": "https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        "id": "dg-002",
+        "title": "Soft Rayon Embroidered A-Line Kurti Dress",
+        "price": 549,
+        "size": "L",
+        "color": "Dusty Peach",
+        "quantity": 1,
+        "image": "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?auto=format&fit=crop&w=800&q=80"
+      }
+    ],
+    "subtotal": 1347,
+    "discount": 0,
+    "shippingFee": 0,
+    "total": 1347,
+    "paymentMethod": "Cash on Delivery",
+    "paymentStatus": "Pending",
+    "orderStatus": "Shipped",
+    "source": "Website Checkout"
+  }
+]

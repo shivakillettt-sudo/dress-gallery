@@ -1,0 +1,24 @@
+[
+  {
+    "id": "INQ-1451",
+    "createdAt": "2026-09-28T12:35:31.451Z",
+    "name": "Shalini Verma",
+    "phone": "9811223344",
+    "city": "Jaipur",
+    "businessType": "Boutique Owner",
+    "monthlyVolume": "50-100 pieces",
+    "message": "Looking for high volume daily wear kurti sets and tiered floral gowns.",
+    "status": "New"
+  },
+  {
+    "id": "INQ-101",
+    "createdAt": "2026-09-28T09:30:00.000Z",
+    "name": "Kavitha R.",
+    "phone": "+91 97123 45678",
+    "city": "Chennai",
+    "businessType": "Instagram Reseller",
+    "monthlyVolume": "25-50 pieces",
+    "message": "Interested in stocking your cotton nighties and rayon kurti dresses for my WhatsApp broadcast group of 400 members. Please share wholesale catalog and margins.",
+    "status": "New"
+  }
+]

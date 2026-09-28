@@ -1,0 +1,254 @@
+[
+  {
+    "id": "dg-001",
+    "title": "Rose Bloom Tiered Floral Maxi Dress",
+    "category": "Trendy & Designer",
+    "price": 899,
+    "mrp": 1799,
+    "sizes": ["S", "M", "L", "XL"],
+    "colors": ["Blush Pink", "Cream White"],
+    "inStock": true,
+    "stockCount": 18,
+    "featured": true,
+    "badge": "Bestseller",
+    "fabric": "Premium Georgette with Butter Crepe Lining",
+    "description": "An ethereal tiered maxi dress featuring delicate rose floral prints, flattering V-neckline, and elasticated waist for a comfortable feminine silhouette. Perfect for brunches, beach outings, and garden parties.",
+    "images": [
+      "https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=800&q=80"
+    ],
+    "rating": 4.9,
+    "reviewsCount": 42
+  },
+  {
+    "id": "dg-002",
+    "title": "Soft Rayon Embroidered A-Line Kurti Dress",
+    "category": "Casual & Everyday",
+    "price": 549,
+    "mrp": 1099,
+    "sizes": ["M", "L", "XL", "XXL"],
+    "colors": ["Dusty Peach", "Sage Green"],
+    "inStock": true,
+    "stockCount": 24,
+    "featured": true,
+    "badge": "Meesho Special",
+    "fabric": "100% Breathable Rayon",
+    "description": "Lightweight, ultra-soft everyday kurti dress with detailed thread embroidery on the yoke. Features 3/4 sleeves and comfortable side pockets. Ideal for office wear and college daily style.",
+    "images": [
+      "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=800&q=80"
+    ],
+    "rating": 4.8,
+    "reviewsCount": 67
+  },
+  {
+    "id": "dg-003",
+    "title": "Graceful Velvet Sequin Cocktail Evening Gown",
+    "category": "Trendy & Designer",
+    "price": 1499,
+    "mrp": 2999,
+    "sizes": ["S", "M", "L"],
+    "colors": ["Wine Burgundy", "Emerald Green"],
+    "inStock": true,
+    "stockCount": 8,
+    "featured": true,
+    "badge": "Trending",
+    "fabric": "Micro Velvet with Hand-worked Sequins",
+    "description": "Make an unforgettable statement in this luxury velvet gown with shimmering sequin detailing and a side slit. Designed for wedding receptions, cocktail parties, and grand festivals.",
+    "images": [
+      "https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1518895949257-7621c3c786d7?auto=format&fit=crop&w=800&q=80"
+    ],
+    "rating": 5.0,
+    "reviewsCount": 29
+  },
+  {
+    "id": "dg-004",
+    "title": "Featherlight Cotton Floral Daily Nighty",
+    "category": "Nighties & Lounge",
+    "price": 399,
+    "mrp": 799,
+    "sizes": ["Free Size", "L", "XL", "XXL"],
+    "colors": ["Baby Pink", "Sky Blue", "Lavender"],
+    "inStock": true,
+    "stockCount": 35,
+    "featured": false,
+    "badge": "Under ₹499",
+    "fabric": "100% Pure Combed Cotton",
+    "description": "Designed for maximum all-night relaxation, this pure cotton nighty offers featherlight comfort, non-shrink fabric, and front button convenience. A top favorite for home lounging.",
+    "images": [
+      "https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?auto=format&fit=crop&w=800&q=80"
+    ],
+    "rating": 4.9,
+    "reviewsCount": 88
+  },
+  {
+    "id": "dg-005",
+    "title": "Chic Satin Silk Button-Down Wrap Dress",
+    "category": "Trendy & Designer",
+    "price": 999,
+    "mrp": 1999,
+    "sizes": ["S", "M", "L", "XL"],
+    "colors": ["Champagne Gold", "Blush Rose"],
+    "inStock": true,
+    "stockCount": 12,
+    "featured": true,
+    "badge": "Hot Pick",
+    "fabric": "Luxury Korean Satin Silk",
+    "description": "Exude understated luxury with this satin wrap dress featuring a collared neckline, self-fabric waist tie, and elegant balloon cuffs. Elevates date nights and dinner gatherings effortlessly.",
+    "images": [
+      "https://images.unsplash.com/photo-1539008835657-9e8e9680c956?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1502716119720-b23a93e5fe1b?auto=format&fit=crop&w=800&q=80"
+    ],
+    "rating": 4.7,
+    "reviewsCount": 31
+  },
+  {
+    "id": "dg-006",
+    "title": "Boho Printed Tiered Cotton Midi Dress",
+    "category": "Casual & Everyday",
+    "price": 649,
+    "mrp": 1299,
+    "sizes": ["S", "M", "L", "XL"],
+    "colors": ["Coral Pink", "Mustard Yellow"],
+    "inStock": true,
+    "stockCount": 20,
+    "featured": false,
+    "badge": "Meesho Find",
+    "fabric": "Slub Cotton with Indigo Discharge Print",
+    "description": "Effortlessly breezy midi dress with tiered flounces, tassel-tie neck, and relaxed fit. Easy to dress up with kolhapuris or sneakers for a laidback weekend look.",
+    "images": [
+      "https://images.unsplash.com/photo-1525507119028-ed4c629a60a3?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1485968579580-b6d095142e6e?auto=format&fit=crop&w=800&q=80"
+    ],
+    "rating": 4.8,
+    "reviewsCount": 54
+  },
+  {
+    "id": "dg-007",
+    "title": "Royal Silk Jacquard Festive Anarkali Gown",
+    "category": "Trendy & Designer",
+    "price": 1299,
+    "mrp": 2599,
+    "sizes": ["M", "L", "XL", "XXL"],
+    "colors": ["Rani Pink", "Navy Blue"],
+    "inStock": true,
+    "stockCount": 15,
+    "featured": true,
+    "badge": "Festive Glam",
+    "fabric": "Banarasi Art Silk Jacquard with Zari Weave",
+    "description": "Full flare 4-meter ghera Anarkali gown woven with opulent golden zari motifs. Comes with matching designer waist belt and santoon lining. A showstopper for celebrations.",
+    "images": [
+      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=800&q=80"
+    ],
+    "rating": 4.9,
+    "reviewsCount": 46
+  },
+  {
+    "id": "dg-008",
+    "title": "Cozy Knitted Ribbed Bodycon Midi Dress",
+    "category": "Casual & Everyday",
+    "price": 799,
+    "mrp": 1499,
+    "sizes": ["S", "M", "L"],
+    "colors": ["Mocha Beige", "Classic Black"],
+    "inStock": true,
+    "stockCount": 10,
+    "featured": false,
+    "badge": "Viral Style",
+    "fabric": "Super-stretch Ribbed Cotton Knit",
+    "description": "Figure-flattering ribbed bodycon with high mock neck and mid-calf length. Stretchy, snug, and comfortable all day long. Pair with a denim jacket or boots.",
+    "images": [
+      "https://images.unsplash.com/photo-1576995853123-5a10305d93c0?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1549062572-544a64fb0c52?auto=format&fit=crop&w=800&q=80"
+    ],
+    "rating": 4.6,
+    "reviewsCount": 23
+  },
+  {
+    "id": "dg-009",
+    "title": "Pastel Printed Satin 2-Piece Night Suit & Robe",
+    "category": "Nighties & Lounge",
+    "price": 699,
+    "mrp": 1399,
+    "sizes": ["Free Size", "M", "L", "XL"],
+    "colors": ["Powder Pink", "Ice Lavender"],
+    "inStock": true,
+    "stockCount": 22,
+    "featured": true,
+    "badge": "Lounge Luxury",
+    "fabric": "Silky Smooth Poly-Satin",
+    "description": "Indulge in cozy nights with this silky 2-piece nightwear set featuring a lace-trimmed slip nighty and a matching tie-belt kimono robe. Soft against sensitive skin.",
+    "images": [
+      "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1508427953056-b00b8d78ebf5?auto=format&fit=crop&w=800&q=80"
+    ],
+    "rating": 4.9,
+    "reviewsCount": 39
+  },
+  {
+    "id": "dg-010",
+    "title": "Everyday Cotton Printed Straight Cut Kurta",
+    "category": "Casual & Everyday",
+    "price": 449,
+    "mrp": 899,
+    "sizes": ["S", "M", "L", "XL", "XXL"],
+    "colors": ["Pastel Green", "Blush Peach"],
+    "inStock": true,
+    "stockCount": 30,
+    "featured": false,
+    "badge": "Under ₹499",
+    "fabric": "100% Khadi Cotton",
+    "description": "Breathable all-weather cotton dress kurta with geometric block prints. Easy wash and wear, skin-friendly, and wrinkle resistant for busy mornings.",
+    "images": [
+      "https://images.unsplash.com/photo-1551803091-e20673f15770?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=800&q=80"
+    ],
+    "rating": 4.7,
+    "reviewsCount": 51
+  },
+  {
+    "id": "dg-011",
+    "title": "Organza Floral Ruffled Cocktail Midi Dress",
+    "category": "Trendy & Designer",
+    "price": 1199,
+    "mrp": 2399,
+    "sizes": ["S", "M", "L"],
+    "colors": ["Pastel Lilac", "Pearl Cream"],
+    "inStock": true,
+    "stockCount": 9,
+    "featured": true,
+    "badge": "Instagram Hit",
+    "fabric": "Semi-sheer Organza with Micro-pleated Hem",
+    "description": "Dreamy organza dress adorned with watercolor floral blooms, ruffled flutter sleeves, and sweetheart neckline. A viral favorite for birthday celebrations and photoshoots.",
+    "images": [
+      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1495385794356-15371f348c31?auto=format&fit=crop&w=800&q=80"
+    ],
+    "rating": 4.9,
+    "reviewsCount": 35
+  },
+  {
+    "id": "dg-012",
+    "title": "Comfort Flex Pure Cotton Maternity & Nursing Nighty",
+    "category": "Nighties & Lounge",
+    "price": 499,
+    "mrp": 999,
+    "sizes": ["Free Size", "XL", "XXL"],
+    "colors": ["Warm Beige", "Soft Teal"],
+    "inStock": true,
+    "stockCount": 16,
+    "featured": false,
+    "badge": "Comfort First",
+    "fabric": "Super combed 100% Hosiery Cotton",
+    "description": "Specially tailored for feeding mothers and relaxing everyday comfort with concealed dual zip openings. Ultra-soft breathable feel with pockets on both sides.",
+    "images": [
+      "https://images.unsplash.com/photo-1516762689617-e1cffcef479d?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=800&q=80"
+    ],
+    "rating": 4.8,
+    "reviewsCount": 62
+  }
+]
