@@ -39,8 +39,7 @@ export default function ProductOrderModal({
   const [formError, setFormError] = useState('');
   const [orderPlaced, setOrderPlaced] = useState(false);
 
-  const businessPhone = settings?.whatsappNumber || '6369099224';
-  const internalWhatsAppNumber = settings?.whatsappInternal || '919636909224';
+  const internalWhatsAppNumber = '919636909224';
 
   const handleUseMyLocation = () => {
     setLocationError('');
@@ -103,7 +102,7 @@ export default function ProductOrderModal({
     const totalPrice = product.price * quantity;
 
     // Build the formatted WhatsApp message according to the exact specification
-    let msg = `Hello Dress Gallery! I would like to order:\n\n`;
+    let msg = `Hello Dress Gallery! I would like to order.\n\n`;
     msg += `Product: ${product.title}\n`;
     msg += `Product Code: ${sku}\n`;
     msg += `Price: ₹${totalPrice}\n`;
@@ -115,16 +114,14 @@ export default function ProductOrderModal({
     msg += `Delivery Address: ${address.trim()}\n`;
 
     if (coords) {
-      msg += `\nLocation:\n`;
-      msg += `Latitude: ${coords.lat}\n`;
-      msg += `Longitude: ${coords.lon}\n`;
+      msg += `\nLocation: ${coords.lat}, ${coords.lon}\n`;
     }
 
     if (notes.trim()) {
       msg += `\nAdditional Notes: ${notes.trim()}\n`;
     }
 
-    msg += `\nPlease confirm availability and order details.`;
+    msg += `\nPlease confirm my order.`;
 
     // Save order to backend so admin can view it in the dashboard
     try {
@@ -162,8 +159,8 @@ export default function ProductOrderModal({
       console.warn('Could not record order to backend', err);
     }
 
-    // Open WhatsApp
-    const whatsappUrl = `https://wa.me/${internalWhatsAppNumber}?text=${encodeURIComponent(msg)}`;
+    // Open WhatsApp via https://api.whatsapp.com/send?phone=919636909224&text=...
+    const whatsappUrl = `https://api.whatsapp.com/send?phone=919636909224&text=${encodeURIComponent(msg)}`;
     window.open(whatsappUrl, '_blank');
     setOrderPlaced(true);
   };
@@ -187,7 +184,7 @@ export default function ProductOrderModal({
             </div>
             <div>
               <h3 className="font-serif font-bold text-base text-brand-dark">Complete Your Order</h3>
-              <p className="text-[11px] text-brand-muted">Direct order to Dress Gallery (+91 {businessPhone})</p>
+              <p className="text-[11px] text-brand-muted">Instant WhatsApp Order Confirmation</p>
             </div>
           </div>
           <button
@@ -412,10 +409,10 @@ export default function ProductOrderModal({
                 className="w-full bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-sm py-3 px-4 rounded-2xl shadow-md shadow-emerald-500/25 transition flex items-center justify-center gap-2 active:scale-95"
               >
                 <MessageCircle className="w-4 h-4 fill-white" />
-                <span>Confirm Order on WhatsApp (₹{product.price * quantity})</span>
+                <span>Confirm Order (₹{product.price * quantity})</span>
               </button>
               <p className="text-[10px] text-brand-muted text-center mt-2">
-                Order will be sent to Dress Gallery business WhatsApp: <strong className="text-brand-dark">{businessPhone}</strong>
+                Click to confirm and open your order details directly in WhatsApp.
               </p>
             </div>
 

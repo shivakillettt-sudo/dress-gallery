@@ -463,9 +463,10 @@ export default function AdminDashboard({ onClose, onProductChange }) {
           </div>
 
           <div className="p-3 bg-brand-cream rounded-2xl border border-brand-pink/20 text-xs text-brand-muted">
-            <p className="font-bold text-brand-dark">Business WhatsApp:</p>
-            <p className="font-mono text-[11px] text-brand-deep font-semibold mt-0.5">
-              +91 {settings.whatsappNumber || '6369099224'}
+            <p className="font-bold text-brand-dark">WhatsApp Ordering:</p>
+            <p className="text-[11px] text-emerald-600 font-semibold mt-0.5 flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block animate-pulse" />
+              Connected & Active
             </p>
           </div>
         </aside>

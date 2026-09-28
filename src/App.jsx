@@ -462,7 +462,6 @@ export default function App() {
         isWishlisted={selectedProduct ? isWishlisted(selectedProduct.id) : false}
         onToggleWishlist={handleToggleWishlist}
         onAddToCart={handleAddToCart}
-        whatsappNumber={settings.whatsappNumber}
         onOpenSizeChart={() => setIsSizeChartOpen(true)}
         onOpenOrderForm={(prod, sz, clr) => {
           setSelectedProduct(null);

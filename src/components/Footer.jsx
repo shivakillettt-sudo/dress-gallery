@@ -21,8 +21,6 @@ export default function Footer({
   onOpenSizeChart,
   onOpenAdmin
 }) {
-  const whatsappNumber = settings?.whatsappNumber || '6369099224';
-  const internalWhatsApp = settings?.whatsappInternal || '919636909224';
   const currentYear = new Date().getFullYear();
 
   return (
@@ -50,13 +48,13 @@ export default function Footer({
             {/* WhatsApp Contact badge */}
             <div className="pt-2">
               <a
-                href={`https://wa.me/${internalWhatsApp}`}
+                href="https://api.whatsapp.com/send?phone=919636909224"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 bg-[#25D366]/20 hover:bg-[#25D366] text-white border border-[#25D366]/40 text-xs font-semibold px-4 py-2 rounded-xl transition"
               >
                 <MessageCircle className="w-4 h-4 fill-current" />
-                <span>Chat on WhatsApp: +91 {whatsappNumber}</span>
+                <span>Chat on WhatsApp</span>
               </a>
             </div>
           </div>

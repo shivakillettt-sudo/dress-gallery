@@ -21,7 +21,6 @@ export default function ProductDetailModal({
   isWishlisted,
   onToggleWishlist,
   onAddToCart,
-  whatsappNumber,
   onOpenSizeChart,
   onOpenOrderForm
 }) {

@@ -194,7 +194,7 @@ export const api = {
         tagline: "Trendy Fashion • Quality • Comfort • Affordable Prices",
         whatsappNumber: "6369099224",
         whatsappInternal: "919636909224",
-        announcement: "🌸 Welcome to Dress Gallery! Flat 10% OFF with code WELCOME100 • Free Delivery above ₹799 • WhatsApp: 6369099224 🌸",
+        announcement: "🌸 Welcome to Dress Gallery! Flat 10% OFF with code WELCOME100 • Free Delivery above ₹799 • Easy Direct WhatsApp Orders 🌸",
         freeShippingThreshold: 799,
         standardShippingFee: 70,
         upiId: "dressgallery@okaxis",

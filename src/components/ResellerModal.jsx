@@ -26,8 +26,7 @@ export default function ResellerModal({ isOpen, onClose, settings }) {
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
-  const whatsappNumber = settings?.whatsappNumber || '6369099224';
-  const internalWhatsApp = settings?.whatsappInternal || '919636909224';
+  const internalWhatsApp = '919636909224';
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -56,7 +55,7 @@ export default function ResellerModal({ isOpen, onClose, settings }) {
 
 Please share your wholesale catalog, dealer prices, and broadcast group link!`;
 
-    window.open(`https://wa.me/${internalWhatsApp}?text=${encodeURIComponent(msg)}`, '_blank');
+    window.open(`https://api.whatsapp.com/send?phone=${internalWhatsApp}&text=${encodeURIComponent(msg)}`, '_blank');
   };
 
   return (

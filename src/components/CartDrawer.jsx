@@ -65,7 +65,7 @@ export default function CartDrawer({
   };
 
   const handleWhatsAppCheckout = () => {
-    const phone = settings?.whatsappInternal || settings?.whatsappNumber || '919636909224';
+    const phone = '919636909224';
     const itemsList = cartItems.map((item, idx) => 
       `${idx + 1}. *${item.title}* | Size: ${item.selectedSize} | Qty: ${item.quantity} | ₹${item.price * item.quantity}`
     ).join('\n');
@@ -83,7 +83,7 @@ ${discount > 0 ? `🎁 *Discount (${appliedCoupon}):* -₹${discount}\n` : ''}�
 
 Please confirm availability and share payment/delivery steps!`;
 
-    window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
+    window.open(`https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(msg)}`, '_blank');
   };
 
   return (

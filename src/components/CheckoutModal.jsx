@@ -115,7 +115,7 @@ export default function CheckoutModal({
 
   const handleWhatsAppSendOrder = () => {
     if (!placedOrder) return;
-    const phone = settings?.whatsappInternal || settings?.whatsappNumber || '919636909224';
+    const phone = '919636909224';
     const itemsList = placedOrder.items.map((it, i) => 
       `${i + 1}. *${it.title}* (${it.size}) x${it.quantity} - ₹${it.price * it.quantity}`
     ).join('\n');
@@ -135,7 +135,7 @@ ${itemsList}
 
 Please confirm my order and share the dispatch tracking!`;
 
-    window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
+    window.open(`https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(msg)}`, '_blank');
   };
 
   return (
