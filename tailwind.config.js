@@ -8,20 +8,20 @@ module.exports = {
     extend: {
       colors: {
         brand: {
-          pink: '#e8a0b5',
-          deep: '#c85c7a',
-          soft: '#f8dfe7',
-          cream: '#fffaf5',
-          beige: '#f3e8dc',
-          gold: '#c9a45c',
-          dark: '#252126',
-          muted: '#756d72',
+          pink: 'var(--primary-pink, #e8a0b5)',
+          deep: 'var(--deep-pink, #c85c7a)',
+          soft: 'var(--soft-pink, #f8dfe7)',
+          cream: 'var(--cream, #fffaf5)',
+          beige: 'var(--beige, #f3e8dc)',
+          gold: 'var(--gold, #c9a45c)',
+          dark: 'var(--dark, #252126)',
+          muted: 'var(--muted, #756d72)',
           light: '#fdfbf9'
         }
       },
       fontFamily: {
-        serif: ['"Playfair Display"', 'Georgia', 'serif'],
-        sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+        serif: ['var(--font-heading, "Playfair Display")', 'Georgia', 'serif'],
+        sans: ['var(--font-body, "Plus Jakarta Sans")', 'system-ui', 'sans-serif'],
       },
       boxShadow: {
         'soft': '0 8px 30px rgba(200, 92, 122, 0.08)',

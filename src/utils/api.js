@@ -244,6 +244,17 @@ export const api = {
     return {
       storeName: "Dress Gallery",
       tagline: "Trendy Fashion • Quality • Comfort • Affordable Prices",
+      subtitle: "Shiva Fashion",
+      logoSubtitle: "Shiva Fashion",
+      monogramInitials: "AS",
+      customLogoUrl: "",
+      themeColorPrimary: "#c85c7a",
+      themeColorSoft: "#f8dfe7",
+      themeColorGold: "#c9a45c",
+      themeColorBg: "#fffaf5",
+      themeColorDark: "#252126",
+      fontHeading: "Playfair Display",
+      fontBody: "Plus Jakarta Sans",
       orderWhatsAppNumber: "6369099224",
       whatsappNumber: "6369099224",
       whatsappInternal: "916369099224",
@@ -251,7 +262,19 @@ export const api = {
       freeShippingThreshold: 799,
       standardShippingFee: 70,
       upiId: "dressgallery@okaxis",
-      supportEmail: "contact@dressgallery.in"
+      supportEmail: "contact@dressgallery.in",
+      enableLandingPage: true,
+      enable3DHearts: true,
+      landingHeadline: "Celebrate Feminine Grace & Trendy Style",
+      landingTagline: "Curated collection of everyday elegance, designer dresses & comfortable loungewear crafted for you.",
+      landingButtonText: "OPEN DRESS GALLERY",
+      landingBgImage: "https://images.unsplash.com/photo-1518895949257-7621c3c786d7?auto=format&fit=crop&w=1920&q=85",
+      heroImage: "https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=800&q=80",
+      heroBadge: "Shiva Fashion Collection",
+      heroHeadline: "",
+      heroSubtitle: "Curated women’s dresses and everyday outfits, crafted for comfort, style, and quality.",
+      heroCardTitle: "The Blossom Edit",
+      heroCardSubtitle: "Breathable silhouettes for everyday comfort"
     };
   },
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
   Lock, 
   LayoutDashboard, 
@@ -21,11 +21,24 @@ import {
   Sparkles,
   Tag,
   AlertCircle,
-  Loader2
+  Loader2,
+  Palette,
+  RefreshCw,
+  Type,
+  Sliders,
+  ShieldCheck,
+  Eye,
+  Heart
 } from 'lucide-react';
 import ASLogo from './ASLogo';
 import { api } from '../utils/api';
 import { getWhatsAppOrderNumber } from '../utils/whatsapp';
+import { 
+  applyTheme, 
+  COLOR_PRESETS, 
+  AVAILABLE_HEADING_FONTS, 
+  AVAILABLE_BODY_FONTS 
+} from '../utils/theme';
 
 export default function AdminDashboard({ onClose, onProductChange }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -67,8 +80,124 @@ export default function AdminDashboard({ onClose, onProductChange }) {
   const [selectedOrderForInvoice, setSelectedOrderForInvoice] = useState(null);
   const [settingsForm, setSettingsForm] = useState({});
   const [settingsSaved, setSettingsSaved] = useState(false);
+  const [customizationSaved, setCustomizationSaved] = useState(false);
   const [orderFilter, setOrderFilter] = useState('All');
   const [productSearch, setProductSearch] = useState('');
+
+  // CAPTCHA State for Anti-Bot & Brute Force Protection
+  const [captchaCode, setCaptchaCode] = useState('');
+  const [captchaInput, setCaptchaInput] = useState('');
+  const captchaCanvasRef = useRef(null);
+
+  const defaultThemeSettings = {
+    themeColorPrimary: '#c85c7a',
+    themeColorSoft: '#f8dfe7',
+    themeColorGold: '#c9a45c',
+    themeColorBg: '#fffaf5',
+    themeColorDark: '#252126',
+    fontHeading: 'Playfair Display',
+    fontBody: 'Plus Jakarta Sans',
+    storeName: 'Dress Gallery',
+    tagline: 'Trendy Fashion • Quality • Comfort • Affordable Prices',
+    logoSubtitle: 'Shiva Fashion',
+    monogramInitials: 'AS',
+    enableLandingPage: true,
+    enable3DHearts: true,
+    landingHeadline: 'Celebrate Feminine Grace & Trendy Style',
+    landingTagline: 'Curated collection of everyday elegance, designer dresses & comfortable loungewear crafted for you.',
+    landingButtonText: 'OPEN DRESS GALLERY',
+    landingBgImage: 'https://images.unsplash.com/photo-1518895949257-7621c3c786d7?auto=format&fit=crop&w=1920&q=85',
+    heroImage: 'https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=800&q=80',
+    heroBadge: 'Shiva Fashion Collection',
+    heroHeadline: '',
+    heroSubtitle: 'Curated women’s dresses and everyday outfits, crafted for comfort, style, and quality.',
+    heroCardTitle: 'The Blossom Edit',
+    heroCardSubtitle: 'Breathable silhouettes for everyday comfort'
+  };
+
+  const generateCaptcha = () => {
+    const chars = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ';
+    let code = '';
+    for (let i = 0; i < 5; i++) {
+      code += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    setCaptchaCode(code);
+    setCaptchaInput('');
+    setTimeout(() => {
+      drawCaptcha(code);
+    }, 20);
+  };
+
+  const drawCaptcha = (code) => {
+    const canvas = captchaCanvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const width = canvas.width;
+    const height = canvas.height;
+
+    // Background gradient
+    const bgGradient = ctx.createLinearGradient(0, 0, width, height);
+    bgGradient.addColorStop(0, '#fff5f7');
+    bgGradient.addColorStop(1, '#f8dfe7');
+    ctx.fillStyle = bgGradient;
+    ctx.fillRect(0, 0, width, height);
+
+    // Scratch noise lines
+    const lineColors = ['#c85c7a', '#c9a45c', '#756d72', '#e8a0b5'];
+    for (let i = 0; i < 5; i++) {
+      ctx.strokeStyle = lineColors[i % lineColors.length];
+      ctx.lineWidth = Math.random() * 1.5 + 0.8;
+      ctx.beginPath();
+      ctx.moveTo(Math.random() * width, Math.random() * height);
+      ctx.bezierCurveTo(
+        Math.random() * width, Math.random() * height,
+        Math.random() * width, Math.random() * height,
+        Math.random() * width, Math.random() * height
+      );
+      ctx.stroke();
+    }
+
+    // Noise dots
+    for (let i = 0; i < 28; i++) {
+      ctx.fillStyle = lineColors[Math.floor(Math.random() * lineColors.length)];
+      ctx.beginPath();
+      ctx.arc(Math.random() * width, Math.random() * height, Math.random() * 1.5, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    // Characters with random rotation
+    const charColors = ['#962846', '#7c293e', '#252126', '#872942', '#b45309'];
+    const charSpacing = width / (code.length + 1);
+
+    for (let i = 0; i < code.length; i++) {
+      const char = code[i];
+      ctx.save();
+      const x = (i + 1) * charSpacing;
+      const y = height / 2 + (Math.random() * 6 - 3);
+      ctx.translate(x, y);
+      const angle = (Math.random() * 32 - 16) * Math.PI / 180;
+      ctx.rotate(angle);
+      ctx.font = 'bold 22px "Plus Jakarta Sans", monospace';
+      ctx.fillStyle = charColors[i % charColors.length];
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.shadowColor = 'rgba(0,0,0,0.15)';
+      ctx.shadowBlur = 2;
+      ctx.fillText(char, 0, 0);
+      ctx.restore();
+    }
+  };
+
+  // Generate CAPTCHA on initial modal open
+  useEffect(() => {
+    if (!isAuthenticated) {
+      setTimeout(() => {
+        generateCaptcha();
+      }, 60);
+    }
+  }, [isAuthenticated]);
 
   // Check existing session
   useEffect(() => {
@@ -82,6 +211,15 @@ export default function AdminDashboard({ onClose, onProductChange }) {
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoginError('');
+
+    // 1. CAPTCHA Security Validation
+    if (!captchaInput.trim() || captchaInput.trim().toUpperCase() !== captchaCode.toUpperCase()) {
+      setLoginError('Incorrect CAPTCHA. Please enter the characters shown.');
+      generateCaptcha();
+      return;
+    }
+
+    // 2. Admin PIN Authentication
     try {
       const res = await api.loginAdmin(pinInput);
       if (res && res.success) {
@@ -90,9 +228,11 @@ export default function AdminDashboard({ onClose, onProductChange }) {
         fetchAdminData();
       } else {
         setLoginError(res.error || 'Incorrect Admin PIN. Please try again.');
+        generateCaptcha();
       }
     } catch (err) {
       setLoginError('Error connecting to authentication server');
+      generateCaptcha();
     }
   };
 
@@ -114,8 +254,9 @@ export default function AdminDashboard({ onClose, onProductChange }) {
       setProducts(prods || []);
       setOrders(ords || []);
       setInquiries(inqs || []);
-      setSettings(sets || {});
-      setSettingsForm(sets || {});
+      const merged = { ...defaultThemeSettings, ...(sets || {}) };
+      setSettings(merged);
+      setSettingsForm(merged);
     } catch (err) {
       console.error('Error fetching admin data', err);
     } finally {
@@ -280,11 +421,81 @@ export default function AdminDashboard({ onClose, onProductChange }) {
       const updated = await api.updateSettings(payload);
       setSettings(updated || payload);
       setSettingsForm(updated || payload);
+      applyTheme(updated || payload);
       setSettingsSaved(true);
       if (onProductChange) onProductChange();
       setTimeout(() => setSettingsSaved(false), 3000);
     } catch (err) {
       alert('Error saving settings');
+    }
+  };
+
+  const handleApplyPreset = (preset) => {
+    setSettingsForm(prev => ({
+      ...prev,
+      themeColorPrimary: preset.primary,
+      themeColorSoft: preset.soft,
+      themeColorGold: preset.gold,
+      themeColorBg: preset.bg,
+      themeColorDark: preset.dark
+    }));
+  };
+
+  const handleCustomizationImageUpload = async (e, field) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadingImage(true);
+    try {
+      const result = await api.uploadImage(file);
+      if (result && result.url) {
+        setSettingsForm(prev => ({
+          ...prev,
+          [field]: result.url
+        }));
+      }
+    } catch (err) {
+      console.error('Customization image upload error', err);
+      alert('Failed to upload image. Please try an image under 15MB.');
+    } finally {
+      setUploadingImage(false);
+    }
+  };
+
+  const handleSaveCustomization = async (e) => {
+    if (e) e.preventDefault();
+    try {
+      const orderNum = (settingsForm.orderWhatsAppNumber || settingsForm.whatsappNumber || '6369099224').trim();
+      const formattedInternal = getWhatsAppOrderNumber({ orderWhatsAppNumber: orderNum });
+
+      const payload = {
+        ...settingsForm,
+        orderWhatsAppNumber: orderNum,
+        whatsappNumber: orderNum,
+        whatsappInternal: formattedInternal
+      };
+
+      const updated = await api.updateSettings(payload);
+      setSettings(updated || payload);
+      setSettingsForm(updated || payload);
+
+      // Immediately apply theme and fonts across the live site
+      applyTheme(updated || payload);
+
+      setCustomizationSaved(true);
+      if (onProductChange) onProductChange();
+      setTimeout(() => setCustomizationSaved(false), 3500);
+    } catch (err) {
+      alert('Error saving customization settings');
+    }
+  };
+
+  const handleResetCustomizationDefaults = () => {
+    if (window.confirm('Reset all website design, colors, and fonts back to default?')) {
+      setSettingsForm(prev => ({
+        ...prev,
+        ...defaultThemeSettings
+      }));
     }
   };
 
@@ -308,30 +519,93 @@ export default function AdminDashboard({ onClose, onProductChange }) {
   if (!isAuthenticated) {
     return (
       <div className="fixed inset-0 z-50 bg-brand-dark/85 backdrop-blur-sm flex items-center justify-center p-4">
-        <div className="bg-white rounded-3xl p-8 max-w-sm w-full shadow-2xl border border-brand-pink/30 text-center animate-scaleIn">
+        <div className="bg-white rounded-3xl p-6 sm:p-7 max-w-sm w-full shadow-2xl border border-brand-pink/30 text-center animate-scaleIn">
           
           {/* AS Monogram Logo */}
-          <div className="mb-4 flex justify-center">
+          <div className="mb-3 flex justify-center">
             <ASLogo size="lg" showText={false} />
           </div>
 
           <h2 className="font-serif text-2xl font-bold text-brand-dark">Dress Gallery</h2>
           <p className="text-xs text-brand-muted mt-0.5">Secure Store Owner Admin Portal</p>
-          <p className="text-[11px] text-brand-deep font-semibold mt-1">Enter your Admin PIN</p>
+          
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-soft/80 border border-brand-pink/40 text-[11px] font-bold text-brand-deep mt-2">
+            <ShieldCheck className="w-3.5 h-3.5 text-brand-deep" />
+            <span>PIN & CAPTCHA Protected</span>
+          </div>
 
-          <form onSubmit={handleLogin} className="mt-6 space-y-4">
-            <input
-              type="password"
-              maxLength="8"
-              autoFocus
-              placeholder="••••••"
-              value={pinInput}
-              onChange={(e) => setPinInput(e.target.value)}
-              className="w-full text-center text-2xl tracking-[0.5em] font-mono py-3 bg-brand-cream border border-brand-pink/40 rounded-2xl focus:outline-none focus:border-brand-deep"
-            />
+          <form onSubmit={handleLogin} className="mt-5 space-y-3.5 text-left">
+            <div>
+              <label className="block text-[11px] font-bold text-brand-dark mb-1">
+                Admin PIN
+              </label>
+              <input
+                type="password"
+                maxLength="8"
+                autoFocus
+                placeholder="••••••"
+                value={pinInput}
+                onChange={(e) => setPinInput(e.target.value)}
+                className="w-full text-center text-2xl tracking-[0.5em] font-mono py-2.5 bg-brand-cream border border-brand-pink/40 rounded-2xl focus:outline-none focus:border-brand-deep"
+              />
+            </div>
+
+            {/* CAPTCHA Security Verification */}
+            <div className="bg-brand-cream/60 border border-brand-pink/30 rounded-2xl p-3 space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-[11px] font-bold text-brand-dark flex items-center gap-1.5">
+                  <ShieldCheck className="w-3.5 h-3.5 text-brand-deep" />
+                  Security CAPTCHA
+                </span>
+                <button
+                  type="button"
+                  onClick={generateCaptcha}
+                  className="text-[10px] text-brand-deep font-semibold flex items-center gap-1 hover:underline"
+                  title="Refresh CAPTCHA"
+                >
+                  <RefreshCw className="w-3 h-3" />
+                  <span>Reload</span>
+                </button>
+              </div>
+
+              {/* Canvas Display with Reload Button */}
+              <div className="flex items-center justify-center gap-2">
+                <div className="rounded-xl overflow-hidden border border-brand-pink/40 shadow-inner bg-white">
+                  <canvas
+                    ref={captchaCanvasRef}
+                    width={160}
+                    height={44}
+                    className="block cursor-pointer"
+                    onClick={generateCaptcha}
+                    title="Click to refresh CAPTCHA"
+                  />
+                </div>
+                <button
+                  type="button"
+                  onClick={generateCaptcha}
+                  className="p-2.5 bg-white border border-brand-pink/30 hover:border-brand-deep text-brand-dark rounded-xl shadow-2xs transition"
+                  title="Get new CAPTCHA"
+                >
+                  <RefreshCw className="w-4 h-4 text-brand-muted hover:text-brand-deep" />
+                </button>
+              </div>
+
+              {/* CAPTCHA Text Input */}
+              <input
+                type="text"
+                required
+                maxLength="6"
+                placeholder="ENTER CAPTCHA"
+                value={captchaInput}
+                onChange={(e) => setCaptchaInput(e.target.value.toUpperCase())}
+                className="w-full text-center text-sm font-mono font-bold tracking-widest py-2 bg-white border border-brand-pink/40 rounded-xl focus:outline-none focus:border-brand-deep uppercase"
+              />
+            </div>
 
             {loginError && (
-              <p className="text-xs text-rose-600 font-semibold">{loginError}</p>
+              <p className="text-xs text-rose-600 font-semibold bg-rose-50 border border-rose-200 py-1.5 px-3 rounded-xl text-center">
+                {loginError}
+              </p>
             )}
 
             <button
@@ -342,7 +616,7 @@ export default function AdminDashboard({ onClose, onProductChange }) {
             </button>
           </form>
 
-          <div className="mt-6 pt-4 border-t border-brand-pink/20">
+          <div className="mt-5 pt-3 border-t border-brand-pink/20">
             <button
               onClick={onClose}
               className="text-xs text-brand-muted hover:text-brand-dark underline"
@@ -461,6 +735,24 @@ export default function AdminDashboard({ onClose, onProductChange }) {
               )}
             </button>
 
+            {/* WEBSITE CUSTOMIZATION SETTINGS SECTION */}
+            <button
+              onClick={() => setActiveTab('customization')}
+              className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold transition ${
+                activeTab === 'customization'
+                  ? 'bg-brand-deep text-white shadow-xs'
+                  : 'text-brand-dark bg-brand-soft/40 hover:bg-brand-soft border border-brand-pink/30'
+              }`}
+            >
+              <div className="flex items-center gap-2.5">
+                <Palette className="w-4 h-4 text-brand-gold" />
+                <span>Customization Settings</span>
+              </div>
+              <span className="text-[9px] bg-brand-gold/20 text-brand-gold font-bold px-1.5 py-0.5 rounded-full">
+                LIVE
+              </span>
+            </button>
+
             {/* REQUIRED CLEARLY VISIBLE ADMIN SETTINGS SECTION */}
             <button
               onClick={() => setActiveTab('settings')}
@@ -489,7 +781,7 @@ export default function AdminDashboard({ onClose, onProductChange }) {
           
           {/* Mobile Tab Selector */}
           <div className="flex md:hidden items-center gap-1 overflow-x-auto pb-3 mb-4 no-scrollbar">
-            {['overview', 'products', 'orders', 'inquiries', 'settings'].map(tab => (
+            {['overview', 'products', 'orders', 'inquiries', 'customization', 'settings'].map(tab => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
@@ -497,7 +789,7 @@ export default function AdminDashboard({ onClose, onProductChange }) {
                   activeTab === tab ? 'bg-brand-deep text-white' : 'bg-white text-brand-dark'
                 }`}
               >
-                {tab === 'settings' ? 'Admin Settings' : tab}
+                {tab === 'customization' ? 'Customization' : tab === 'settings' ? 'Admin Settings' : tab}
               </button>
             ))}
           </div>
@@ -921,6 +1213,637 @@ export default function AdminDashboard({ onClose, onProductChange }) {
                   ))
                 )}
               </div>
+            </div>
+          )}
+
+          {/* TAB 4.5: WEBSITE CUSTOMIZATION SETTINGS */}
+          {activeTab === 'customization' && (
+            <div className="space-y-6 max-w-4xl pb-12">
+              
+              {/* Top Banner & Quick Save Bar */}
+              <div className="bg-white rounded-3xl border border-brand-pink/25 p-6 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 rounded-xl bg-brand-soft/80 flex items-center justify-center text-brand-deep border border-brand-pink/40">
+                      <Palette className="w-4 h-4" />
+                    </div>
+                    <h3 className="font-serif font-bold text-xl text-brand-dark">Website Customization Settings</h3>
+                  </div>
+                  <p className="text-xs text-brand-muted mt-1 max-w-xl">
+                    Customize your store’s colors, typography, brand logo, hero images, and 3D landing page. Changes apply immediately upon saving.
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={handleResetCustomizationDefaults}
+                    className="text-xs font-semibold text-brand-muted hover:text-brand-dark bg-brand-cream border border-brand-pink/25 px-3.5 py-2.5 rounded-xl transition"
+                  >
+                    Reset Defaults
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleSaveCustomization}
+                    className="bg-brand-deep hover:bg-brand-deep/90 text-white font-bold text-xs px-5 py-2.5 rounded-xl shadow-xs transition flex items-center gap-1.5"
+                  >
+                    <Check className="w-4 h-4" />
+                    <span>Save & Apply</span>
+                  </button>
+                </div>
+              </div>
+
+              {customizationSaved && (
+                <div className="bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold p-4 rounded-2xl flex items-center gap-2.5 shadow-xs animate-fadeIn">
+                  <Check className="w-5 h-5 text-emerald-600" />
+                  <span>Website customization saved! All colors, fonts, logos, and landing content have been applied live.</span>
+                </div>
+              )}
+
+              {/* CARD 1: COLOUR PALETTE & THEMES */}
+              <div className="bg-white rounded-3xl border border-brand-pink/25 p-6 shadow-xs space-y-5">
+                <div className="flex items-center justify-between border-b border-brand-pink/15 pb-3">
+                  <div className="flex items-center gap-2">
+                    <Palette className="w-4 h-4 text-brand-deep" />
+                    <h4 className="font-serif font-bold text-base text-brand-dark">1. Brand Colour Palette</h4>
+                  </div>
+                  <span className="text-[10px] font-bold text-brand-deep bg-brand-soft/80 px-2 py-0.5 rounded-full">
+                    Instant Live Theming
+                  </span>
+                </div>
+
+                {/* 1-Click Color Presets */}
+                <div>
+                  <label className="block font-bold text-xs text-brand-dark mb-2">Quick 1-Click Color Presets</label>
+                  <div className="flex flex-wrap gap-2">
+                    {COLOR_PRESETS.map(preset => (
+                      <button
+                        key={preset.id}
+                        type="button"
+                        onClick={() => handleApplyPreset(preset)}
+                        className="flex items-center gap-2 px-3 py-2 rounded-xl border border-brand-pink/30 hover:border-brand-deep bg-brand-cream/50 text-xs font-semibold text-brand-dark transition hover:bg-white"
+                      >
+                        <div className="flex items-center -space-x-1">
+                          <span className="w-3.5 h-3.5 rounded-full border border-white shadow-2xs" style={{ backgroundColor: preset.primary }} />
+                          <span className="w-3.5 h-3.5 rounded-full border border-white shadow-2xs" style={{ backgroundColor: preset.gold }} />
+                          <span className="w-3.5 h-3.5 rounded-full border border-white shadow-2xs" style={{ backgroundColor: preset.soft }} />
+                        </div>
+                        <span>{preset.name}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* 5 Custom Color Pickers */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pt-2">
+                  {/* Primary Color */}
+                  <div className="p-3.5 rounded-2xl bg-brand-cream/50 border border-brand-pink/25 space-y-2">
+                    <label className="block text-[11px] font-bold text-brand-dark">Primary Brand Color</label>
+                    <div className="flex items-center gap-2.5">
+                      <input
+                        type="color"
+                        value={settingsForm.themeColorPrimary || '#c85c7a'}
+                        onChange={(e) => setSettingsForm({ ...settingsForm, themeColorPrimary: e.target.value })}
+                        className="w-10 h-10 rounded-xl cursor-pointer border border-brand-pink/30 bg-transparent p-0.5"
+                      />
+                      <input
+                        type="text"
+                        value={settingsForm.themeColorPrimary || '#c85c7a'}
+                        onChange={(e) => setSettingsForm({ ...settingsForm, themeColorPrimary: e.target.value })}
+                        className="flex-1 bg-white border border-brand-pink/30 rounded-xl p-2 text-xs font-mono font-bold uppercase"
+                      />
+                    </div>
+                    <p className="text-[10px] text-brand-muted">Used for buttons, active tabs & accents</p>
+                  </div>
+
+                  {/* Soft Accent Color */}
+                  <div className="p-3.5 rounded-2xl bg-brand-cream/50 border border-brand-pink/25 space-y-2">
+                    <label className="block text-[11px] font-bold text-brand-dark">Soft Accent Color</label>
+                    <div className="flex items-center gap-2.5">
+                      <input
+                        type="color"
+                        value={settingsForm.themeColorSoft || '#f8dfe7'}
+                        onChange={(e) => setSettingsForm({ ...settingsForm, themeColorSoft: e.target.value })}
+                        className="w-10 h-10 rounded-xl cursor-pointer border border-brand-pink/30 bg-transparent p-0.5"
+                      />
+                      <input
+                        type="text"
+                        value={settingsForm.themeColorSoft || '#f8dfe7'}
+                        onChange={(e) => setSettingsForm({ ...settingsForm, themeColorSoft: e.target.value })}
+                        className="flex-1 bg-white border border-brand-pink/30 rounded-xl p-2 text-xs font-mono font-bold uppercase"
+                      />
+                    </div>
+                    <p className="text-[10px] text-brand-muted">Used for badges, pills & soft cards</p>
+                  </div>
+
+                  {/* Gold Luxury Accent */}
+                  <div className="p-3.5 rounded-2xl bg-brand-cream/50 border border-brand-pink/25 space-y-2">
+                    <label className="block text-[11px] font-bold text-brand-dark">Subtle Gold Accent</label>
+                    <div className="flex items-center gap-2.5">
+                      <input
+                        type="color"
+                        value={settingsForm.themeColorGold || '#c9a45c'}
+                        onChange={(e) => setSettingsForm({ ...settingsForm, themeColorGold: e.target.value })}
+                        className="w-10 h-10 rounded-xl cursor-pointer border border-brand-pink/30 bg-transparent p-0.5"
+                      />
+                      <input
+                        type="text"
+                        value={settingsForm.themeColorGold || '#c9a45c'}
+                        onChange={(e) => setSettingsForm({ ...settingsForm, themeColorGold: e.target.value })}
+                        className="flex-1 bg-white border border-brand-pink/30 rounded-xl p-2 text-xs font-mono font-bold uppercase"
+                      />
+                    </div>
+                    <p className="text-[10px] text-brand-muted">Used for sparkles, monogram & luxury icons</p>
+                  </div>
+
+                  {/* Page Background */}
+                  <div className="p-3.5 rounded-2xl bg-brand-cream/50 border border-brand-pink/25 space-y-2">
+                    <label className="block text-[11px] font-bold text-brand-dark">Background Color</label>
+                    <div className="flex items-center gap-2.5">
+                      <input
+                        type="color"
+                        value={settingsForm.themeColorBg || '#fffaf5'}
+                        onChange={(e) => setSettingsForm({ ...settingsForm, themeColorBg: e.target.value })}
+                        className="w-10 h-10 rounded-xl cursor-pointer border border-brand-pink/30 bg-transparent p-0.5"
+                      />
+                      <input
+                        type="text"
+                        value={settingsForm.themeColorBg || '#fffaf5'}
+                        onChange={(e) => setSettingsForm({ ...settingsForm, themeColorBg: e.target.value })}
+                        className="flex-1 bg-white border border-brand-pink/30 rounded-xl p-2 text-xs font-mono font-bold uppercase"
+                      />
+                    </div>
+                    <p className="text-[10px] text-brand-muted">Main page body background</p>
+                  </div>
+
+                  {/* Dark Text Color */}
+                  <div className="p-3.5 rounded-2xl bg-brand-cream/50 border border-brand-pink/25 space-y-2">
+                    <label className="block text-[11px] font-bold text-brand-dark">Dark Charcoal Text</label>
+                    <div className="flex items-center gap-2.5">
+                      <input
+                        type="color"
+                        value={settingsForm.themeColorDark || '#252126'}
+                        onChange={(e) => setSettingsForm({ ...settingsForm, themeColorDark: e.target.value })}
+                        className="w-10 h-10 rounded-xl cursor-pointer border border-brand-pink/30 bg-transparent p-0.5"
+                      />
+                      <input
+                        type="text"
+                        value={settingsForm.themeColorDark || '#252126'}
+                        onChange={(e) => setSettingsForm({ ...settingsForm, themeColorDark: e.target.value })}
+                        className="flex-1 bg-white border border-brand-pink/30 rounded-xl p-2 text-xs font-mono font-bold uppercase"
+                      />
+                    </div>
+                    <p className="text-[10px] text-brand-muted">Primary headings and body text</p>
+                  </div>
+                </div>
+
+                {/* Live Color Swatch Strip */}
+                <div 
+                  className="p-4 rounded-2xl border flex flex-wrap items-center justify-between gap-3"
+                  style={{
+                    backgroundColor: settingsForm.themeColorBg || '#fffaf5',
+                    borderColor: settingsForm.themeColorSoft || '#f8dfe7',
+                    color: settingsForm.themeColorDark || '#252126'
+                  }}
+                >
+                  <div className="flex items-center gap-2">
+                    <span 
+                      className="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider"
+                      style={{
+                        backgroundColor: settingsForm.themeColorSoft || '#f8dfe7',
+                        color: settingsForm.themeColorPrimary || '#c85c7a'
+                      }}
+                    >
+                      Sample Badge
+                    </span>
+                    <span className="text-xs font-bold">Theme Preview Sample</span>
+                  </div>
+
+                  <button 
+                    type="button"
+                    className="px-4 py-1.5 rounded-xl text-xs font-bold text-white shadow-xs"
+                    style={{ backgroundColor: settingsForm.themeColorPrimary || '#c85c7a' }}
+                  >
+                    Sample Button
+                  </button>
+                </div>
+              </div>
+
+              {/* CARD 2: TYPOGRAPHY & FONTS */}
+              <div className="bg-white rounded-3xl border border-brand-pink/25 p-6 shadow-xs space-y-5">
+                <div className="flex items-center justify-between border-b border-brand-pink/15 pb-3">
+                  <div className="flex items-center gap-2">
+                    <Type className="w-4 h-4 text-brand-deep" />
+                    <h4 className="font-serif font-bold text-base text-brand-dark">2. Typography & Fonts</h4>
+                  </div>
+                  <span className="text-[10px] font-bold text-brand-deep bg-brand-soft/80 px-2 py-0.5 rounded-full">
+                    Google Fonts Library
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {/* Heading Font */}
+                  <div>
+                    <label className="block font-bold text-xs text-brand-dark mb-1">
+                      Heading / Serif Font Family
+                    </label>
+                    <select
+                      value={settingsForm.fontHeading || 'Playfair Display'}
+                      onChange={(e) => setSettingsForm({ ...settingsForm, fontHeading: e.target.value })}
+                      className="w-full bg-brand-cream/60 border border-brand-pink/30 rounded-xl p-2.5 text-xs font-semibold"
+                    >
+                      {AVAILABLE_HEADING_FONTS.map(f => (
+                        <option key={f} value={f}>{f}</option>
+                      ))}
+                    </select>
+                    <p className="text-[10px] text-brand-muted mt-1">Used for main titles, product names & headers</p>
+                  </div>
+
+                  {/* Body Font */}
+                  <div>
+                    <label className="block font-bold text-xs text-brand-dark mb-1">
+                      Body / Sans Font Family
+                    </label>
+                    <select
+                      value={settingsForm.fontBody || 'Plus Jakarta Sans'}
+                      onChange={(e) => setSettingsForm({ ...settingsForm, fontBody: e.target.value })}
+                      className="w-full bg-brand-cream/60 border border-brand-pink/30 rounded-xl p-2.5 text-xs font-semibold"
+                    >
+                      {AVAILABLE_BODY_FONTS.map(f => (
+                        <option key={f} value={f}>{f}</option>
+                      ))}
+                    </select>
+                    <p className="text-[10px] text-brand-muted mt-1">Used for descriptions, prices, buttons & tabs</p>
+                  </div>
+                </div>
+
+                {/* Live Typography Preview Box */}
+                <div className="p-4 rounded-2xl bg-brand-cream/40 border border-brand-pink/20 space-y-1">
+                  <p 
+                    className="text-lg font-bold text-brand-dark"
+                    style={{ fontFamily: settingsForm.fontHeading || 'Playfair Display' }}
+                  >
+                    The Blossom Edit — Exclusive Women’s Dresses
+                  </p>
+                  <p 
+                    className="text-xs text-brand-muted"
+                    style={{ fontFamily: settingsForm.fontBody || 'Plus Jakarta Sans' }}
+                  >
+                    Experience luxurious comfort and trendy fashion crafted with meticulous attention to detail.
+                  </p>
+                </div>
+              </div>
+
+              {/* CARD 3: BRAND IDENTITY, LOGO & WEBSITE NAME */}
+              <div className="bg-white rounded-3xl border border-brand-pink/25 p-6 shadow-xs space-y-5">
+                <div className="flex items-center justify-between border-b border-brand-pink/15 pb-3">
+                  <div className="flex items-center gap-2">
+                    <Sparkles className="w-4 h-4 text-brand-gold" />
+                    <h4 className="font-serif font-bold text-base text-brand-dark">3. Logo & Website Name</h4>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {/* Website / Store Name */}
+                  <div>
+                    <label className="block font-bold text-xs text-brand-dark mb-1">Website / Brand Name *</label>
+                    <input
+                      type="text"
+                      value={settingsForm.storeName || 'Dress Gallery'}
+                      onChange={(e) => setSettingsForm({ ...settingsForm, storeName: e.target.value })}
+                      className="w-full bg-brand-cream/60 border border-brand-pink/30 rounded-xl p-2.5 text-xs font-bold text-brand-dark"
+                      placeholder="Dress Gallery"
+                    />
+                  </div>
+
+                  {/* Tagline */}
+                  <div>
+                    <label className="block font-bold text-xs text-brand-dark mb-1">Official Brand Tagline *</label>
+                    <input
+                      type="text"
+                      value={settingsForm.tagline || 'Trendy Fashion • Quality • Comfort • Affordable Prices'}
+                      onChange={(e) => setSettingsForm({ ...settingsForm, tagline: e.target.value })}
+                      className="w-full bg-brand-cream/60 border border-brand-pink/30 rounded-xl p-2.5 text-xs text-brand-dark"
+                      placeholder="Trendy Fashion • Quality • Comfort"
+                    />
+                  </div>
+
+                  {/* Monogram Subtitle */}
+                  <div>
+                    <label className="block font-bold text-xs text-brand-dark mb-1">Logo Subtitle *</label>
+                    <input
+                      type="text"
+                      value={settingsForm.logoSubtitle || settingsForm.subtitle || 'Shiva Fashion'}
+                      onChange={(e) => setSettingsForm({ 
+                        ...settingsForm, 
+                        logoSubtitle: e.target.value,
+                        subtitle: e.target.value
+                      })}
+                      className="w-full bg-brand-cream/60 border border-brand-pink/30 rounded-xl p-2.5 text-xs font-semibold text-brand-dark"
+                      placeholder="Shiva Fashion"
+                    />
+                    <p className="text-[10px] text-brand-muted mt-1">Displays underneath the logo</p>
+                  </div>
+
+                  {/* Monogram Initials */}
+                  <div>
+                    <label className="block font-bold text-xs text-brand-dark mb-1">Monogram Initials (1-3 Letters)</label>
+                    <input
+                      type="text"
+                      maxLength="3"
+                      value={settingsForm.monogramInitials || 'AS'}
+                      onChange={(e) => setSettingsForm({ ...settingsForm, monogramInitials: e.target.value.toUpperCase() })}
+                      className="w-full bg-brand-cream/60 border border-brand-pink/30 rounded-xl p-2.5 text-xs font-mono font-bold uppercase tracking-widest text-brand-dark"
+                      placeholder="AS"
+                    />
+                    <p className="text-[10px] text-brand-muted mt-1">Emblem center letters (e.g. AS or DG)</p>
+                  </div>
+                </div>
+
+                {/* Custom Logo Image Option */}
+                <div className="p-4 rounded-2xl bg-brand-cream/50 border border-brand-pink/25 space-y-3">
+                  <label className="block font-bold text-xs text-brand-dark">
+                    Custom Logo Image (Optional File Upload or URL)
+                  </label>
+                  
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+                    <label className="cursor-pointer inline-flex items-center justify-center gap-2 bg-white hover:bg-brand-soft border border-brand-pink/40 text-brand-dark font-bold text-xs px-4 py-2.5 rounded-xl shadow-2xs transition">
+                      <Upload className="w-3.5 h-3.5 text-brand-deep" />
+                      <span>Upload Logo from Computer</span>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => handleCustomizationImageUpload(e, 'customLogoUrl')}
+                        className="hidden"
+                      />
+                    </label>
+
+                    <input
+                      type="text"
+                      value={settingsForm.customLogoUrl || ''}
+                      onChange={(e) => setSettingsForm({ ...settingsForm, customLogoUrl: e.target.value })}
+                      placeholder="Or paste direct logo image URL..."
+                      className="flex-1 bg-white border border-brand-pink/30 rounded-xl p-2.5 text-xs"
+                    />
+
+                    {settingsForm.customLogoUrl && (
+                      <div className="flex items-center gap-2">
+                        <img 
+                          src={settingsForm.customLogoUrl} 
+                          alt="Logo Preview" 
+                          className="w-10 h-10 object-cover rounded-full border border-brand-pink/30 shadow-2xs" 
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setSettingsForm({ ...settingsForm, customLogoUrl: '' })}
+                          className="text-xs text-rose-500 hover:underline"
+                        >
+                          Remove
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                  <p className="text-[10px] text-brand-muted">
+                    If set, this image replaces the circular monogram emblem across the navbar and footer.
+                  </p>
+                </div>
+              </div>
+
+              {/* CARD 4: STORE IMAGES & HERO SHOWCASE */}
+              <div className="bg-white rounded-3xl border border-brand-pink/25 p-6 shadow-xs space-y-5">
+                <div className="flex items-center justify-between border-b border-brand-pink/15 pb-3">
+                  <div className="flex items-center gap-2">
+                    <ImageIcon className="w-4 h-4 text-brand-deep" />
+                    <h4 className="font-serif font-bold text-base text-brand-dark">4. Store Visuals & Hero Showcase</h4>
+                  </div>
+                </div>
+
+                {/* Hero Showcase Image */}
+                <div className="p-4 rounded-2xl bg-brand-cream/50 border border-brand-pink/25 space-y-3">
+                  <label className="block font-bold text-xs text-brand-dark">
+                    Hero Showcase Image (Front Homepage Banner)
+                  </label>
+
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+                    <label className="cursor-pointer inline-flex items-center justify-center gap-2 bg-white hover:bg-brand-soft border border-brand-pink/40 text-brand-dark font-bold text-xs px-4 py-2.5 rounded-xl shadow-2xs transition">
+                      <Upload className="w-3.5 h-3.5 text-brand-deep" />
+                      <span>Upload Hero Image from Computer</span>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => handleCustomizationImageUpload(e, 'heroImage')}
+                        className="hidden"
+                      />
+                    </label>
+
+                    <input
+                      type="text"
+                      value={settingsForm.heroImage || ''}
+                      onChange={(e) => setSettingsForm({ ...settingsForm, heroImage: e.target.value })}
+                      placeholder="Or paste hero image URL..."
+                      className="flex-1 bg-white border border-brand-pink/30 rounded-xl p-2.5 text-xs"
+                    />
+
+                    {settingsForm.heroImage && (
+                      <img 
+                        src={settingsForm.heroImage} 
+                        alt="Hero Preview" 
+                        className="w-12 h-14 object-cover rounded-xl border border-brand-pink/30 shadow-2xs" 
+                      />
+                    )}
+                  </div>
+                </div>
+
+                {/* Hero Copy Settings */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block font-bold text-xs text-brand-dark mb-1">Hero Badge Text</label>
+                    <input
+                      type="text"
+                      value={settingsForm.heroBadge || ''}
+                      onChange={(e) => setSettingsForm({ ...settingsForm, heroBadge: e.target.value })}
+                      className="w-full bg-brand-cream/60 border border-brand-pink/30 rounded-xl p-2.5 text-xs"
+                      placeholder="e.g. Shiva Fashion Collection"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block font-bold text-xs text-brand-dark mb-1">Hero Main Headline (Optional Override)</label>
+                    <input
+                      type="text"
+                      value={settingsForm.heroHeadline || ''}
+                      onChange={(e) => setSettingsForm({ ...settingsForm, heroHeadline: e.target.value })}
+                      className="w-full bg-brand-cream/60 border border-brand-pink/30 rounded-xl p-2.5 text-xs"
+                      placeholder="Leave blank for classic multi-line default"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block font-bold text-xs text-brand-dark mb-1">Hero Subtitle</label>
+                  <input
+                    type="text"
+                    value={settingsForm.heroSubtitle || ''}
+                    onChange={(e) => setSettingsForm({ ...settingsForm, heroSubtitle: e.target.value })}
+                    className="w-full bg-brand-cream/60 border border-brand-pink/30 rounded-xl p-2.5 text-xs"
+                    placeholder="Curated women’s dresses and everyday outfits, crafted for comfort, style, and quality."
+                  />
+                </div>
+              </div>
+
+              {/* CARD 5: 3D LOVE THEME & 1ST PAGE LANDING CONTENT */}
+              <div className="bg-white rounded-3xl border border-brand-pink/25 p-6 shadow-xs space-y-5">
+                <div className="flex items-center justify-between border-b border-brand-pink/15 pb-3">
+                  <div className="flex items-center gap-2">
+                    <Heart className="w-4 h-4 text-rose-500 fill-rose-500" />
+                    <h4 className="font-serif font-bold text-base text-brand-dark">5. 1st Page 3D Love Theme & Content</h4>
+                  </div>
+                  <span className="text-[10px] font-bold text-rose-600 bg-rose-50 px-2 py-0.5 rounded-full border border-rose-200">
+                    3D Perspective & Depth
+                  </span>
+                </div>
+
+                {/* Toggles */}
+                <div className="flex flex-wrap items-center gap-6 p-3.5 rounded-2xl bg-brand-cream/50 border border-brand-pink/20">
+                  <label className="flex items-center gap-2.5 cursor-pointer font-bold text-xs text-brand-dark">
+                    <input
+                      type="checkbox"
+                      checked={settingsForm.enableLandingPage !== false}
+                      onChange={(e) => setSettingsForm({ ...settingsForm, enableLandingPage: e.target.checked })}
+                      className="rounded text-brand-deep focus:ring-brand-pink w-4 h-4"
+                    />
+                    <span>Enable 1st Opening 3D Landing Page</span>
+                  </label>
+
+                  <label className="flex items-center gap-2.5 cursor-pointer font-bold text-xs text-brand-dark">
+                    <input
+                      type="checkbox"
+                      checked={settingsForm.enable3DHearts !== false}
+                      onChange={(e) => setSettingsForm({ ...settingsForm, enable3DHearts: e.target.checked })}
+                      className="rounded text-brand-deep focus:ring-brand-pink w-4 h-4"
+                    />
+                    <span>Enable Floating 3D Love Hearts Effect</span>
+                  </label>
+                </div>
+
+                {/* Landing Background Image */}
+                <div className="p-4 rounded-2xl bg-brand-cream/50 border border-brand-pink/25 space-y-3">
+                  <label className="block font-bold text-xs text-brand-dark">
+                    Landing Page Editorial Background Image
+                  </label>
+
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+                    <label className="cursor-pointer inline-flex items-center justify-center gap-2 bg-white hover:bg-brand-soft border border-brand-pink/40 text-brand-dark font-bold text-xs px-4 py-2.5 rounded-xl shadow-2xs transition">
+                      <Upload className="w-3.5 h-3.5 text-brand-deep" />
+                      <span>Upload Background from Computer</span>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => handleCustomizationImageUpload(e, 'landingBgImage')}
+                        className="hidden"
+                      />
+                    </label>
+
+                    <input
+                      type="text"
+                      value={settingsForm.landingBgImage || ''}
+                      onChange={(e) => setSettingsForm({ ...settingsForm, landingBgImage: e.target.value })}
+                      placeholder="https://images.unsplash.com/photo-..."
+                      className="flex-1 bg-white border border-brand-pink/30 rounded-xl p-2.5 text-xs"
+                    />
+
+                    {settingsForm.landingBgImage && (
+                      <img 
+                        src={settingsForm.landingBgImage} 
+                        alt="Landing Preview" 
+                        className="w-12 h-14 object-cover rounded-xl border border-brand-pink/30 shadow-2xs" 
+                      />
+                    )}
+                  </div>
+                </div>
+
+                {/* Landing Headline & Tagline */}
+                <div className="space-y-3">
+                  <div>
+                    <label className="block font-bold text-xs text-brand-dark mb-1">Landing Page Headline</label>
+                    <input
+                      type="text"
+                      value={settingsForm.landingHeadline || 'Celebrate Feminine Grace & Trendy Style'}
+                      onChange={(e) => setSettingsForm({ ...settingsForm, landingHeadline: e.target.value })}
+                      className="w-full bg-brand-cream/60 border border-brand-pink/30 rounded-xl p-2.5 text-xs font-bold text-brand-dark"
+                      placeholder="Celebrate Feminine Grace & Trendy Style"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block font-bold text-xs text-brand-dark mb-1">Landing Page Tagline / Subtitle</label>
+                    <textarea
+                      rows="2"
+                      value={settingsForm.landingTagline || 'Curated collection of everyday elegance, designer dresses & comfortable loungewear crafted for you.'}
+                      onChange={(e) => setSettingsForm({ ...settingsForm, landingTagline: e.target.value })}
+                      className="w-full bg-brand-cream/60 border border-brand-pink/30 rounded-xl p-2.5 text-xs text-brand-dark"
+                      placeholder="Curated collection of everyday elegance..."
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block font-bold text-xs text-brand-dark mb-1">Entry Button Text</label>
+                    <input
+                      type="text"
+                      value={settingsForm.landingButtonText || 'OPEN DRESS GALLERY'}
+                      onChange={(e) => setSettingsForm({ ...settingsForm, landingButtonText: e.target.value })}
+                      className="w-full bg-brand-cream/60 border border-brand-pink/30 rounded-xl p-2.5 text-xs font-bold uppercase tracking-wider text-brand-dark"
+                      placeholder="OPEN DRESS GALLERY"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* CARD 6: ANNOUNCEMENT BAR TICKER */}
+              <div className="bg-white rounded-3xl border border-brand-pink/25 p-6 shadow-xs space-y-4">
+                <div className="flex items-center gap-2 border-b border-brand-pink/15 pb-3">
+                  <Tag className="w-4 h-4 text-brand-deep" />
+                  <h4 className="font-serif font-bold text-base text-brand-dark">6. Announcement Bar Promotional Banner</h4>
+                </div>
+
+                <div>
+                  <label className="block font-bold text-xs text-brand-dark mb-1">Top Announcement Message</label>
+                  <textarea
+                    rows="2"
+                    value={settingsForm.announcement || ''}
+                    onChange={(e) => setSettingsForm({ ...settingsForm, announcement: e.target.value })}
+                    className="w-full bg-brand-cream/60 border border-brand-pink/30 rounded-xl p-2.5 text-xs font-medium text-brand-dark"
+                    placeholder="🌸 Welcome to Dress Gallery! Flat 10% OFF with code WELCOME100 • Free Delivery above ₹799 🌸"
+                  />
+                  <p className="text-[10px] text-brand-muted mt-1">Displays on the very top bar across every page</p>
+                </div>
+              </div>
+
+              {/* Bottom Sticky Action Bar */}
+              <div className="bg-white rounded-2xl border border-brand-pink/30 p-4 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-3">
+                <p className="text-xs text-brand-muted font-medium">
+                  Saving will immediately update colors, typography, images, and content on your live store.
+                </p>
+
+                <div className="flex items-center gap-2.5 w-full sm:w-auto">
+                  <button
+                    type="button"
+                    onClick={handleResetCustomizationDefaults}
+                    className="flex-1 sm:flex-none text-xs font-semibold text-brand-muted hover:text-brand-dark bg-brand-cream px-4 py-2.5 rounded-xl border border-brand-pink/30 transition"
+                  >
+                    Reset Defaults
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleSaveCustomization}
+                    className="flex-1 sm:flex-none bg-brand-deep hover:bg-brand-deep/90 text-white font-bold text-xs px-6 py-2.5 rounded-xl shadow-xs transition flex items-center justify-center gap-1.5"
+                  >
+                    <Check className="w-4 h-4" />
+                    <span>Save & Apply Customization</span>
+                  </button>
+                </div>
+              </div>
+
             </div>
           )}
 

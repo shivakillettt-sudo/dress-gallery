@@ -12,18 +12,20 @@
   --dark: #252126;
   --muted: #756d72;
   --white: #ffffff;
+  --font-heading: 'Playfair Display', Georgia, serif;
+  --font-body: 'Plus Jakarta Sans', system-ui, sans-serif;
 }
 
 @layer base {
   body {
     background-color: var(--cream);
     color: var(--dark);
-    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    font-family: var(--font-body);
     overflow-x: hidden;
   }
 
   h1, h2, h3, .font-serif {
-    font-family: 'Playfair Display', Georgia, serif;
+    font-family: var(--font-heading);
   }
 }
 

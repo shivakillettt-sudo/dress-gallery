@@ -15,6 +15,7 @@ import InstagramLookbook from './components/InstagramLookbook';
 import Footer from './components/Footer';
 import AdminDashboard from './components/AdminDashboard';
 import { api } from './utils/api';
+import { applyTheme } from './utils/theme';
 import { 
   Filter, 
   Sparkles, 
@@ -127,6 +128,13 @@ export default function App() {
     window.addEventListener('hashchange', checkAdminRoute);
     return () => window.removeEventListener('hashchange', checkAdminRoute);
   }, []);
+
+  // Apply theme settings immediately whenever settings update
+  useEffect(() => {
+    if (settings && typeof settings === 'object') {
+      applyTheme(settings);
+    }
+  }, [settings]);
 
   const handleEnterStore = () => {
     setHasEnteredStore(true);
@@ -266,8 +274,8 @@ export default function App() {
   };
 
   // --- RULE 1: FIRST OPENING PAGE / LANDING PAGE ---
-  if (!hasEnteredStore) {
-    return <LandingPage onEnter={handleEnterStore} />;
+  if (!hasEnteredStore && settings?.enableLandingPage !== false) {
+    return <LandingPage onEnter={handleEnterStore} settings={settings} />;
   }
 
   // --- MAIN SHOPPING WEBSITE ---
@@ -467,6 +475,7 @@ export default function App() {
           setSelectedProduct(null);
           handleOpenOrderModalForProduct(prod, sz, clr);
         }}
+        settings={settings}
       />
 
       {/* Cart Drawer */}

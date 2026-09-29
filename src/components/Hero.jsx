@@ -60,19 +60,25 @@ export default function Hero({ settings, onExplore, onSelectCategory, activeCate
             {/* Pill Tag */}
             <div className="inline-flex items-center gap-2 bg-white/80 border border-brand-pink/40 shadow-xs px-3.5 py-1.5 rounded-full text-xs font-semibold text-brand-deep">
               <Sparkles className="w-3.5 h-3.5 text-brand-gold" />
-              <span>Shiva Fashion Collection</span>
+              <span>{settings?.heroBadge || `${settings?.subtitle || settings?.logoSubtitle || 'Shiva Fashion'} Collection`}</span>
             </div>
 
             {/* Main Headline */}
             <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-brand-dark leading-[1.15]">
-              Trendy Fashion, <br />
-              <span className="italic font-normal text-brand-deep">Exceptional Comfort</span>, <br />
-              Affordable Prices.
+              {settings?.heroHeadline ? (
+                <span>{settings.heroHeadline}</span>
+              ) : (
+                <>
+                  Trendy Fashion, <br />
+                  <span className="italic font-normal text-brand-deep">Exceptional Comfort</span>, <br />
+                  Affordable Prices.
+                </>
+              )}
             </h1>
 
             {/* Subtitle / Brand Statement */}
             <p className="text-base sm:text-lg text-brand-muted max-w-xl mx-auto lg:mx-0 leading-relaxed font-normal">
-              Curated women’s dresses and everyday outfits, crafted for comfort, style, and quality.
+              {settings?.heroSubtitle || settings?.tagline || 'Curated women’s dresses and everyday outfits, crafted for comfort, style, and quality.'}
             </p>
 
             {/* Action Buttons */}
@@ -112,8 +118,8 @@ export default function Hero({ settings, onExplore, onSelectCategory, activeCate
               <div className="overflow-hidden rounded-3xl shadow-float bg-white border border-brand-pink/30 p-2 transform rotate-1 hover:rotate-0 transition duration-500">
                 <div className="relative h-[380px] sm:h-[420px] rounded-2xl overflow-hidden bg-brand-beige">
                   <img
-                    src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=800&q=80"
-                    alt="Dress Gallery Elegance"
+                    src={settings?.heroImage || "https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=800&q=80"}
+                    alt={settings?.storeName || "Dress Gallery Elegance"}
                     className="w-full h-full object-cover object-top hover:scale-105 transition duration-700"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/60 via-transparent to-transparent" />
@@ -123,8 +129,8 @@ export default function Hero({ settings, onExplore, onSelectCategory, activeCate
                     <span className="inline-block bg-brand-gold text-brand-dark font-extrabold text-[10px] uppercase tracking-wider px-2.5 py-0.5 rounded-full mb-1">
                       Featured
                     </span>
-                    <h3 className="font-serif text-xl font-bold">The Blossom Edit</h3>
-                    <p className="text-xs text-white/80">Breathable silhouettes for everyday comfort</p>
+                    <h3 className="font-serif text-xl font-bold">{settings?.heroCardTitle || "The Blossom Edit"}</h3>
+                    <p className="text-xs text-white/80">{settings?.heroCardSubtitle || "Breathable silhouettes for everyday comfort"}</p>
                   </div>
                 </div>
               </div>

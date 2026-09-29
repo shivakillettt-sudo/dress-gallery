@@ -56,22 +56,35 @@ export default function Navbar({
       </div>
 
       {/* Main Navbar */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20 gap-4">
-          {/* Mobile Menu Button */}
-          <div className="flex items-center lg:hidden">
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-xl text-brand-dark hover:bg-brand-soft/50 transition focus:outline-none"
-              aria-label="Toggle menu"
-            >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
-          </div>
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-20 gap-2 sm:gap-4">
+          {/* Left Cluster: Mobile Menu Button + Logo */}
+          <div className="flex items-center gap-1.5 sm:gap-3 min-w-0">
+            {/* Mobile Menu Button (Fixed 40x40px, shrink-0, perfectly centered 3 lines) */}
+            <div className="lg:hidden shrink-0 flex items-center">
+              <button
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="w-10 h-10 shrink-0 flex items-center justify-center rounded-xl text-brand-dark hover:bg-brand-soft/70 active:bg-brand-soft transition focus:outline-none border border-brand-pink/20 bg-white shadow-2xs"
+                aria-label="Toggle menu"
+              >
+                {mobileMenuOpen ? (
+                  <X className="w-6 h-6 shrink-0 text-brand-dark" strokeWidth={2.2} />
+                ) : (
+                  <Menu className="w-6 h-6 shrink-0 text-brand-dark" strokeWidth={2.2} />
+                )}
+              </button>
+            </div>
 
-          {/* Logo & Brand */}
-          <div className="flex items-center cursor-pointer group" onClick={() => onSelectCategory('All')}>
-            <ASLogo size="md" />
+            {/* Logo & Brand */}
+            <div className="flex items-center cursor-pointer group shrink-0" onClick={() => onSelectCategory('All')}>
+              <ASLogo 
+                size="md" 
+                title={settings?.storeName} 
+                subtitle={settings?.subtitle || settings?.logoSubtitle} 
+                logoImage={settings?.customLogoUrl}
+                monogram={settings?.monogramInitials}
+              />
+            </div>
           </div>
 
           {/* Search Bar (Desktop) */}

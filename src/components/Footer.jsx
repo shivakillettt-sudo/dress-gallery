@@ -33,16 +33,23 @@ export default function Footer({
           {/* Brand Info (2 cols) */}
           <div className="lg:col-span-2 space-y-4">
             <div className="flex items-center">
-              <ASLogo size="md" variant="light" />
+              <ASLogo 
+                size="md" 
+                variant="light" 
+                title={settings?.storeName} 
+                subtitle={settings?.subtitle || settings?.logoSubtitle} 
+                logoImage={settings?.customLogoUrl}
+                monogram={settings?.monogramInitials}
+              />
             </div>
 
             <p className="text-xs text-white/70 leading-relaxed max-w-sm">
-              Dress Gallery offers stylish, comfortable, and affordable dresses for everyday wear and special occasions.
+              {settings?.footerDescription || "Dress Gallery offers stylish, comfortable, and affordable dresses for everyday wear and special occasions."}
             </p>
 
             <div className="pt-1">
               <p className="font-serif italic text-xs text-brand-pink">
-                “Trendy Fashion • Quality • Comfort”
+                “{settings?.tagline || "Trendy Fashion • Quality • Comfort"}”
               </p>
             </div>
 
