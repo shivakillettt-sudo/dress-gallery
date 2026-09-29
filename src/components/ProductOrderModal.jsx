@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { 
   X, 
   MapPin, 
@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { api } from '../utils/api';
 import { buildWhatsAppUrl } from '../utils/whatsapp';
+import { reverseGeocode, requestCurrentPosition } from '../utils/location';
 
 export default function ProductOrderModal({
   product,
@@ -40,46 +41,75 @@ export default function ProductOrderModal({
   const [formError, setFormError] = useState('');
   const [orderPlaced, setOrderPlaced] = useState(false);
 
-  const handleUseMyLocation = () => {
+  const addressRef = useRef(null);
+
+  const handleUseMyLocation = async () => {
     setLocationError('');
     setLocationSuccessMsg('');
 
     if (!navigator.geolocation) {
-      setLocationError('Location access was not available. Please enter your address manually.');
+      setLocationError('Location service is not supported in this browser. Please enter your address manually below.');
+      if (addressRef.current) addressRef.current.focus();
       return;
     }
 
     setLocating(true);
 
-    navigator.geolocation.getCurrentPosition(
-      async (pos) => {
-        const lat = pos.coords.latitude.toFixed(6);
-        const lon = pos.coords.longitude.toFixed(6);
-        setCoords({ lat, lon });
-        setLocationSuccessMsg(`Location detected (${lat}, ${lon})`);
-        setLocating(false);
+    try {
+      // 1. Request location permission and get current GPS coordinates
+      const pos = await requestCurrentPosition({
+        enableHighAccuracy: true,
+        timeout: 12000,
+        maximumAge: 30000
+      });
 
-        // Attempt reverse geocoding via public OpenStreetMap Nominatim
-        try {
-          const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`);
-          if (res.ok) {
-            const data = await res.json();
-            if (data && data.display_name) {
-              setAddress((prev) => prev ? `${prev}\n(GPS: ${data.display_name})` : data.display_name);
-            }
-          }
-        } catch (err) {
-          // If reverse geocoding fails, coordinates are still captured
-          console.warn('Reverse geocoding error', err);
+      const lat = Number(pos.coords.latitude).toFixed(6);
+      const lon = Number(pos.coords.longitude).toFixed(6);
+      const accuracy = pos.coords.accuracy ? Math.round(pos.coords.accuracy) : null;
+
+      setCoords({ lat, lon });
+
+      // 2. Reverse geocode to auto-fill address
+      const geoResult = await reverseGeocode(lat, lon);
+
+      setAddress((prev) => {
+        const trimmedPrev = (prev || '').trim();
+        // If customer already entered house/flat number, preserve and append
+        if (trimmedPrev && !trimmedPrev.includes('GPS') && !trimmedPrev.includes('maps.google')) {
+          return `${trimmedPrev}\n${geoResult.formattedDeliveryAddress}`;
         }
-      },
-      (err) => {
-        console.warn('Geolocation error', err);
-        setLocating(false);
-        setLocationError('Location access was not available. Please enter your address manually.');
-      },
-      { timeout: 10000, enableHighAccuracy: true }
-    );
+        return geoResult.formattedDeliveryAddress;
+      });
+
+      setLocationSuccessMsg(
+        accuracy 
+          ? `Current location detected! (GPS accuracy: ±${accuracy}m)`
+          : `Current location detected and filled into address!`
+      );
+    } catch (err) {
+      console.warn('Geolocation / reverse geocoding issue:', err);
+
+      // Handle specific error codes:
+      // 1: PERMISSION_DENIED
+      // 2: POSITION_UNAVAILABLE
+      // 3: TIMEOUT
+      if (err.code === 1) {
+        setLocationError('Location permission was denied. You can enter your address manually in the box below.');
+      } else if (err.code === 2) {
+        setLocationError('Current location unavailable. Please enter your address manually below.');
+      } else if (err.code === 3) {
+        setLocationError('Location request timed out. Please enter your address manually below.');
+      } else {
+        setLocationError('Could not detect location. Please type your delivery address manually below.');
+      }
+
+      // Smooth focus on manual address textarea
+      if (addressRef.current) {
+        addressRef.current.focus();
+      }
+    } finally {
+      setLocating(false);
+    }
   };
 
   const handleSubmitOrder = async (e) => {
@@ -113,7 +143,7 @@ export default function ProductOrderModal({
     msg += `Delivery Address: ${address.trim()}\n`;
 
     if (coords) {
-      msg += `\nLocation: ${coords.lat}, ${coords.lon}\n`;
+      msg += `📍 Google Maps: https://maps.google.com/?q=${coords.lat},${coords.lon}\n`;
     }
 
     if (notes.trim()) {
@@ -308,26 +338,39 @@ export default function ProductOrderModal({
               </div>
 
               <textarea
+                ref={addressRef}
                 required
-                rows="2"
+                rows="3"
                 placeholder="House/Flat No, Street Name, Area, City, Pincode"
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
-                className="w-full bg-brand-cream/60 border border-brand-pink/30 rounded-xl p-2.5 text-xs text-brand-dark focus:bg-white focus:outline-none focus:border-brand-deep"
+                className="w-full bg-brand-cream/60 border border-brand-pink/30 rounded-xl p-2.5 text-xs text-brand-dark focus:bg-white focus:outline-none focus:border-brand-deep leading-relaxed"
               />
 
               {/* Location Feedback */}
               {locationSuccessMsg && (
-                <div className="mt-1 flex items-center gap-1.5 text-[10px] text-emerald-700 font-semibold bg-emerald-50 px-2 py-1 rounded-lg border border-emerald-200">
-                  <MapPin className="w-3 h-3 text-emerald-600" />
-                  <span>{locationSuccessMsg}</span>
+                <div className="mt-1.5 flex items-center justify-between text-[11px] text-emerald-800 font-medium bg-emerald-50 px-2.5 py-1.5 rounded-lg border border-emerald-200">
+                  <div className="flex items-center gap-1.5">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                    <span>{locationSuccessMsg}</span>
+                  </div>
+                  <button 
+                    type="button" 
+                    onClick={() => addressRef.current?.focus()} 
+                    className="text-[10px] text-emerald-700 underline font-semibold ml-2 hover:text-emerald-900"
+                  >
+                    Edit / Add Door No
+                  </button>
                 </div>
               )}
 
               {locationError && (
-                <div className="mt-1 flex items-center gap-1.5 text-[10px] text-amber-800 font-medium bg-amber-50 px-2 py-1 rounded-lg border border-amber-200">
-                  <AlertCircle className="w-3 h-3 text-amber-600" />
-                  <span>{locationError}</span>
+                <div className="mt-1.5 flex items-start gap-1.5 text-[11px] text-amber-900 bg-amber-50 px-2.5 py-1.5 rounded-lg border border-amber-200">
+                  <AlertCircle className="w-3.5 h-3.5 text-amber-600 shrink-0 mt-0.5" />
+                  <div className="flex-1">
+                    <p className="font-semibold text-[11px]">{locationError}</p>
+                    <p className="text-[10px] text-amber-700 mt-0.5">Please type your delivery address in the box above.</p>
+                  </div>
                 </div>
               )}
             </div>
