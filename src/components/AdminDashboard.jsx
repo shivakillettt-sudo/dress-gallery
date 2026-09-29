@@ -25,6 +25,7 @@ import {
 } from 'lucide-react';
 import ASLogo from './ASLogo';
 import { api } from '../utils/api';
+import { getWhatsAppOrderNumber } from '../utils/whatsapp';
 
 export default function AdminDashboard({ onClose, onProductChange }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -266,10 +267,22 @@ export default function AdminDashboard({ onClose, onProductChange }) {
   const handleSaveSettings = async (e) => {
     e.preventDefault();
     try {
-      await api.updateSettings(settingsForm);
-      setSettings(settingsForm);
+      const orderNum = (settingsForm.orderWhatsAppNumber || settingsForm.whatsappNumber || '6369099224').trim();
+      const formattedInternal = getWhatsAppOrderNumber({ orderWhatsAppNumber: orderNum });
+
+      const payload = {
+        ...settingsForm,
+        orderWhatsAppNumber: orderNum,
+        whatsappNumber: orderNum,
+        whatsappInternal: formattedInternal
+      };
+
+      const updated = await api.updateSettings(payload);
+      setSettings(updated || payload);
+      setSettingsForm(updated || payload);
       setSettingsSaved(true);
-      setTimeout(() => setSettingsSaved(false), 2500);
+      if (onProductChange) onProductChange();
+      setTimeout(() => setSettingsSaved(false), 3000);
     } catch (err) {
       alert('Error saving settings');
     }
@@ -930,35 +943,42 @@ export default function AdminDashboard({ onClose, onProductChange }) {
 
                 <form onSubmit={handleSaveSettings} className="space-y-4 text-xs">
                   
-                  {/* WhatsApp Business Phone Number */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block font-bold text-brand-dark mb-1">
-                        Business WhatsApp Display Number *
+                  {/* Order WhatsApp Number Setting */}
+                  <div className="bg-brand-cream/60 border border-brand-pink/30 rounded-2xl p-4 space-y-2.5">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <label className="font-bold text-brand-dark text-xs flex items-center gap-1.5">
+                        <MessageCircle className="w-4 h-4 text-emerald-600 fill-emerald-600" />
+                        Order WhatsApp Number *
                       </label>
-                      <input
-                        type="text"
-                        value={settingsForm.whatsappNumber || '6369099224'}
-                        onChange={(e) => setSettingsForm({ ...settingsForm, whatsappNumber: e.target.value })}
-                        className="w-full bg-brand-cream/70 border border-brand-pink/30 rounded-xl p-2.5 font-bold"
-                        placeholder="6369099224"
-                      />
-                      <p className="text-[10px] text-brand-muted mt-0.5">Displayed on website & order modals</p>
+                      <span className="text-[10px] font-mono font-semibold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300">
+                        Active WhatsApp Destination: +{getWhatsAppOrderNumber(settingsForm)}
+                      </span>
                     </div>
 
-                    <div>
-                      <label className="block font-bold text-brand-dark mb-1">
-                        Internal WhatsApp Destination Number *
-                      </label>
+                    <div className="flex items-center gap-2">
+                      <div className="bg-white border border-brand-pink/40 rounded-xl px-3 py-2.5 text-xs font-bold text-brand-muted">
+                        🇮🇳 +91
+                      </div>
                       <input
                         type="text"
-                        value={settingsForm.whatsappInternal || '919636909224'}
-                        onChange={(e) => setSettingsForm({ ...settingsForm, whatsappInternal: e.target.value })}
-                        className="w-full bg-brand-cream/70 border border-brand-pink/30 rounded-xl p-2.5 font-mono"
-                        placeholder="919636909224"
+                        value={settingsForm.orderWhatsAppNumber ?? settingsForm.whatsappNumber ?? '6369099224'}
+                        onChange={(e) => {
+                          const val = e.target.value;
+                          setSettingsForm(prev => ({
+                            ...prev,
+                            orderWhatsAppNumber: val,
+                            whatsappNumber: val,
+                            whatsappInternal: getWhatsAppOrderNumber({ orderWhatsAppNumber: val })
+                          }));
+                        }}
+                        className="flex-1 bg-white border border-brand-pink/40 rounded-xl p-2.5 text-sm font-bold tracking-wider text-brand-dark focus:border-brand-deep focus:outline-none"
+                        placeholder="6369099224"
                       />
-                      <p className="text-[10px] text-brand-muted mt-0.5">Used for wa.me/ destination</p>
                     </div>
+
+                    <p className="text-[11px] text-brand-muted leading-relaxed">
+                      All customer orders, "Order Now" modal submissions, Cart checkouts, and inquiries will automatically go to this WhatsApp number. When you change this number here, subsequent orders will immediately go to the new number.
+                    </p>
                   </div>
 
                   {/* Announcement Bar Message */}

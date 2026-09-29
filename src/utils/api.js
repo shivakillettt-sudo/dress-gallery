@@ -244,8 +244,9 @@ export const api = {
     return {
       storeName: "Dress Gallery",
       tagline: "Trendy Fashion • Quality • Comfort • Affordable Prices",
+      orderWhatsAppNumber: "6369099224",
       whatsappNumber: "6369099224",
-      whatsappInternal: "919636909224",
+      whatsappInternal: "916369099224",
       announcement: "🌸 Welcome to Dress Gallery! Flat 10% OFF with code WELCOME100 • Free Delivery above ₹799 • Easy Direct WhatsApp Orders 🌸",
       freeShippingThreshold: 799,
       standardShippingFee: 70,

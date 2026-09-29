@@ -10,6 +10,7 @@ import {
   Users 
 } from 'lucide-react';
 import { api } from '../utils/api';
+import { buildWhatsAppUrl } from '../utils/whatsapp';
 
 export default function ResellerModal({ isOpen, onClose, settings }) {
   if (!isOpen) return null;
@@ -25,8 +26,6 @@ export default function ResellerModal({ isOpen, onClose, settings }) {
 
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-
-  const internalWhatsApp = '919636909224';
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -55,7 +54,8 @@ export default function ResellerModal({ isOpen, onClose, settings }) {
 
 Please share your wholesale catalog, dealer prices, and broadcast group link!`;
 
-    window.open(`https://api.whatsapp.com/send?phone=${internalWhatsApp}&text=${encodeURIComponent(msg)}`, '_blank');
+    const whatsappUrl = buildWhatsAppUrl(settings, msg);
+    window.open(whatsappUrl, '_blank');
   };
 
   return (

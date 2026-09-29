@@ -13,6 +13,7 @@ import {
   ShoppingBag
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
+import { buildWhatsAppUrl } from '../utils/whatsapp';
 
 export default function CheckoutModal({
   isOpen,
@@ -115,7 +116,6 @@ export default function CheckoutModal({
 
   const handleWhatsAppSendOrder = () => {
     if (!placedOrder) return;
-    const phone = '919636909224';
     const itemsList = placedOrder.items.map((it, i) => 
       `${i + 1}. *${it.title}* (${it.size}) x${it.quantity} - ₹${it.price * it.quantity}`
     ).join('\n');
@@ -135,7 +135,8 @@ ${itemsList}
 
 Please confirm my order and share the dispatch tracking!`;
 
-    window.open(`https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(msg)}`, '_blank');
+    const whatsappUrl = buildWhatsAppUrl(settings, msg);
+    window.open(whatsappUrl, '_blank');
   };
 
   return (

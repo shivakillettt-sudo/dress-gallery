@@ -11,6 +11,7 @@ import {
   Sparkles, 
   Truck 
 } from 'lucide-react';
+import { buildWhatsAppUrl } from '../utils/whatsapp';
 
 export default function CartDrawer({
   isOpen,
@@ -65,7 +66,6 @@ export default function CartDrawer({
   };
 
   const handleWhatsAppCheckout = () => {
-    const phone = '919636909224';
     const itemsList = cartItems.map((item, idx) => 
       `${idx + 1}. *${item.title}* | Size: ${item.selectedSize} | Qty: ${item.quantity} | ₹${item.price * item.quantity}`
     ).join('\n');
@@ -83,7 +83,8 @@ ${discount > 0 ? `🎁 *Discount (${appliedCoupon}):* -₹${discount}\n` : ''}�
 
 Please confirm availability and share payment/delivery steps!`;
 
-    window.open(`https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(msg)}`, '_blank');
+    const whatsappUrl = buildWhatsAppUrl(settings, msg);
+    window.open(whatsappUrl, '_blank');
   };
 
   return (

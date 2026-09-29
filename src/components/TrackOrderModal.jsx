@@ -11,6 +11,7 @@ import {
   AlertCircle
 } from 'lucide-react';
 import { api } from '../utils/api';
+import { buildWhatsAppUrl } from '../utils/whatsapp';
 
 export default function TrackOrderModal({ isOpen, onClose, initialQuery, settings }) {
   if (!isOpen) return null;
@@ -130,7 +131,7 @@ export default function TrackOrderModal({ isOpen, onClose, initialQuery, setting
                     Please ensure the Order ID is correct or contact us on WhatsApp with your name and payment screenshot.
                   </p>
                   <a
-                    href={`https://api.whatsapp.com/send?phone=919636909224&text=${encodeURIComponent(`Hello Dress Gallery, I want to check my order status for: ${query}`)}`}
+                    href={buildWhatsAppUrl(settings, `Hello Dress Gallery, I want to check my order status for: ${query}`)}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-700 bg-emerald-50 px-3.5 py-1.5 rounded-full border border-emerald-200 mt-2"

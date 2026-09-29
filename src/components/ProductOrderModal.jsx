@@ -12,6 +12,7 @@ import {
   Loader2
 } from 'lucide-react';
 import { api } from '../utils/api';
+import { buildWhatsAppUrl } from '../utils/whatsapp';
 
 export default function ProductOrderModal({
   product,
@@ -38,8 +39,6 @@ export default function ProductOrderModal({
   const [locationSuccessMsg, setLocationSuccessMsg] = useState('');
   const [formError, setFormError] = useState('');
   const [orderPlaced, setOrderPlaced] = useState(false);
-
-  const internalWhatsAppNumber = '919636909224';
 
   const handleUseMyLocation = () => {
     setLocationError('');
@@ -159,8 +158,8 @@ export default function ProductOrderModal({
       console.warn('Could not record order to backend', err);
     }
 
-    // Open WhatsApp via https://api.whatsapp.com/send?phone=919636909224&text=...
-    const whatsappUrl = `https://api.whatsapp.com/send?phone=919636909224&text=${encodeURIComponent(msg)}`;
+    // Open WhatsApp dynamically using Admin Settings
+    const whatsappUrl = buildWhatsAppUrl(settings, msg);
     window.open(whatsappUrl, '_blank');
     setOrderPlaced(true);
   };

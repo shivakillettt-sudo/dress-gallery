@@ -12,6 +12,7 @@ import {
 import InstagramIcon from './InstagramIcon';
 
 import ASLogo from './ASLogo';
+import { buildWhatsAppUrl } from '../utils/whatsapp';
 
 export default function Footer({
   settings,
@@ -48,7 +49,7 @@ export default function Footer({
             {/* WhatsApp Contact badge */}
             <div className="pt-2">
               <a
-                href="https://api.whatsapp.com/send?phone=919636909224"
+                href={buildWhatsAppUrl(settings)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 bg-[#25D366]/20 hover:bg-[#25D366] text-white border border-[#25D366]/40 text-xs font-semibold px-4 py-2 rounded-xl transition"
